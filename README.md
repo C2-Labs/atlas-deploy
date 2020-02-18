@@ -36,9 +36,9 @@ ATLAS can be scaled up or down to meet your needs. The **_MINIMUM_** requirement
 <a name="database"/>
 
 ## Database
-A SQL database is required to run ATLAS. In order to connect to the database, you will need an ADO.NET (SQL Authentication) connection string, similar to the following:
+A SQL database is required to run ATLAS. This database needs to be named ATLAS. In order to connect to the database, you will need an ADO.NET (SQL Authentication) connection string, similar to the following:
 
-`Server=tcp:{yourdatabase}.database.windows.net,1433;Initial Catalog={YOURDB};Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;`
+`Server=tcp:{yourdatabase}.database.windows.net,1433;Initial Catalog=ATLAS;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;`
 
 This is stored as an environment variable within the container. You can apply this using Secrets or some other mechanism, which we will detail below.
 
