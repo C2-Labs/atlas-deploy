@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atlas
+  namespace: atlas-test
+spec:
+  selector:
+    matchLabels: 
+      app: atlas
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: atlas
+    spec:
+      containers:
+      - name: atlas
+        image: c2labs.azurecr.io/atlas:prod
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - mountPath: "/atlas/files"
+            name: atlas-files 
+        envFrom:
+        - configMapRef:
+            name: atlas-config
+        - secretRef:
+            name: atlas-secret-test
+      volumes:
+      - name: atlas-files
+        persistentVolumeClaim:
+          claimName: atlas-files

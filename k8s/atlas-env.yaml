@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlas-config
+  namespace: atlas-test
+data:
+  Domain: 'http://atlas.yourdomain.com'
+  # ASPNETCORE_ENVIRONMENT: Production
+  # File Configuration
+  StoredFilesPath: '/atlas/files'
+  PermittedFileExtensions: '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'
+  FileSizeLimit: "104857600"
+  # Email Configuration
+  Email: atlas_noreply@yourdomain.com #FROM Address
+  EmailAddress: emailbot@yourdomain.com #Account to login to SMTP server
+  AdminEmail: admin@yourdomain.com
+  EmailPort: "587"
+  SmtpServer: smtp.yourdomain.com
