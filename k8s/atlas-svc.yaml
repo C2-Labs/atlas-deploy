@@ -4,7 +4,7 @@ metadata:
   name: atlas-service
   namespace: atlas-test
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - port: 80
   selector:

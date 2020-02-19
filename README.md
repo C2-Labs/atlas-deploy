@@ -54,7 +54,21 @@ If you are using Kubernetes, you first need to configure your database, as detai
     - Azure: Azure Files, Azure Disks, or NFS mount
     - AWS: Elastic Block Store (EBS) or NFS mount using Elastic Files System (EFS)
     - Local: NFS mount to the container
-3. This storage should be expandable, so you can add space, as necessary. We will walk through a couple examples below 
+3. This storage should be expandable, so you can add space, as necessary. We will walk through a couple examples below
+    - These commands are very dependent on your environment. I will walk through scenarios for AWS, Azure, and with local NFS.
+    - AZURE
+        - Azure for Kubernetes provides two separate provisioners as part of the K8S StorageClass. Azure Files does not support access to the storage for multiple containers at a time, so it is **_HIGHLY RECOMMENDED_** that you use **Azure Disks**
+        - To use Azure Disks, you can simply apply the StorageClass in the file `azure-files-sc.yaml`
+            - `kubectl apply -f azure-files-sc.yaml`
+            - As you look at this file, there are a couple things to note:
+                - `provisioner: kubernetes.io/azure-file` - This specifies to use Azure Files, which is what we want
+                - `allowVolumeExpansion: true` - This specifies that the volumes using this StorageClass can later be expanded, which we want to allow for additional storage later, if necessary.
+                - `skuName: Standard_LRS` - This is the least expensive option from Azure. 
+        - 
+    - AWS
+        - 
+    - NFS
+        - 
     - **STORAGE COMMANDS**
 4. After you have the storage, configured you are ready to configure your ConfigMap. The ConfigMap has all the configurable attributes for ATLAS, which we will detail below. You need to **EDIT THIS** for your environment, as detailed below.
     - Overall Config
@@ -88,6 +102,29 @@ If you are using Kubernetes, you first need to configure your database, as detai
     - EmailPassword: This is the password to login to your SMTP server using the user defined by `EmailAddress` in the ConfigMap
 7. Now deploy the Secret:
     - `kubectl apply -f atlas-secrets.yaml`
+8. Now we are ready to deploy the ATLAS container:
+    - `kubectl apply -f atlas-deploy.yaml`
+    - In this file, you can scale the number of replicas for ATLAS. For testing, one is fine, but we recommend at least 3 for production environments.
+        - `replicas: 1` OR
+        - `replicas: 3`
+    - Ensure the pod or pods are running with the command:
+        - `kubectl get pods -n atlas-test`
+9. Now that the pods are running, we need to expose the service:
+    - `kubectl apply -f atlas-svc.yaml`
+    - Ensure the service is running and the IP/URL is exposed:
+        - `kubectl get svc -n atlas-test`
+        - Copy the IP/URL from the `EXTERNAL-IP` column
+10. Update the ATLAS deploy file with the IP/URL from _Step 9_.
+    - In production, you should point a standard DNS record to this address
+    - For testing, we can simply paste this value into the `Domain` value in the `atlas-deploy.yaml` file.
+    - Reapply the deployment
+        - `kubectl apply -f atlas-deploy.yaml`
+11. ATLAS should now be running. Point your Web Browser to the IP/URL from _Step 9_ or the DNS entry created in _Step 10_
+
+
+*** ADD INFO FOR HTTPS ***
+*** ADD DNS INFO FOR AZURE ***
+*** ADD DNS INFO FOR AWS ***
 
 <a name="local_docker"/>
 

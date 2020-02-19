@@ -26,7 +26,7 @@ spec:
         - configMapRef:
             name: atlas-config
         - secretRef:
-            name: atlas-secret-test
+            name: atlas-secrets
       volumes:
       - name: atlas-files
         persistentVolumeClaim:
