@@ -76,9 +76,22 @@ If you are using Kubernetes, you first need to configure your database, as detai
                 - `storageClassName: azure-file` - This is the name of the StorageClass configured above. You do not need to edit this, unless you changed it in the above steps.
                 - `storage: 1Gi` - This is the initial amount of storage for your file store
             - Ensure the PVC has been created:
-                `kubectl get pvc -n atlas-test`
+                - `kubectl get pvc -n atlas-test`
+                - As a note, this will _automatically_ create the Persistent Volume.
     - AWS
-        - 
+        - Unfortunately AWS does not have a built-in storage class for Kubernetes for storage that allows multiple pods to Read/Write to the same storage. If you have a single pod, you can use Elastic Block Storage. For multiple pods, we will have to do the following:
+        - We will be using the Amazon Support CIFS driver to leverage a StorageClass
+            - Amazon Announcement: https://aws.amazon.com/about-aws/whats-new/2019/09/amazon-eks-announces-beta-release-of-amazon-efs-csi-driver/
+            - GitHub Repo: https://github.com/kubernetes-sigs/aws-efs-csi-driver
+        - Create your EFS storage in the same VPC as your Kubernetes cluster. Only static provisioning of EFS is currently supported, so you must manually provision the storage prior to the next steps
+            - When creating EFS filesystem, make sure it is accessible from Kuberenetes cluster. This can be achieved by creating the filesystem inside the same VPC as Kubernetes cluster or using VPC peering. We would recommend having it in the same VPC as K8s.
+            - 
+        - Deploy the CSI Driver
+            - `kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"`
+        - Deploy the StorageClass
+            - `kubectl apply -f apply -f aws-efs-csi-sc.yaml`
+        - Deploy the Persistent Volume Claim (PVC)
+            - 
     - NFS
         - 
     - **STORAGE COMMANDS**
