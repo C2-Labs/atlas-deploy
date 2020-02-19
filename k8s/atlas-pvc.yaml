@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: azure-file  ## Only uncomment if you need to specify a particular Storage Class
+  storageClassName: azure-file
   resources:
     requests:
       storage: 1Gi

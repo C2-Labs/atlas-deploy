@@ -63,8 +63,20 @@ If you are using Kubernetes, you first need to configure your database, as detai
             - As you look at this file, there are a couple things to note:
                 - `provisioner: kubernetes.io/azure-file` - This specifies to use Azure Files, which is what we want
                 - `allowVolumeExpansion: true` - This specifies that the volumes using this StorageClass can later be expanded, which we want to allow for additional storage later, if necessary.
-                - `skuName: Standard_LRS` - This is the least expensive option from Azure. 
-        - 
+                - `skuName: Standard_LRS` - This is the least expensive option from Azure and is sufficient for most customer's needs.
+                    - More details here: https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv
+                    - Standard_LRS - standard locally redundant storage (LRS)
+                    - Standard_GRS - standard geo-redundant storage (GRS)
+                    - Standard_RAGRS - standard read-access geo-redundant storage (RA-GRS)
+                    - Premium_LRS - premium locally redundant storage (LRS)
+        - After the StorageClass is created, you simply need to create your Persistent Volume Claim
+            - `kubectl apply -f atlas-pvc.yaml`
+            - As you look at this file, there are a couple things to note:
+                - `ReadWriteMany` - This allows multiple pods to write to the same PVC.
+                - `storageClassName: azure-file` - This is the name of the StorageClass configured above. You do not need to edit this, unless you changed it in the above steps.
+                - `storage: 1Gi` - This is the initial amount of storage for your file store
+            - Ensure the PVC has been created:
+                `kubectl get pvc -n atlas-test`
     - AWS
         - 
     - NFS
