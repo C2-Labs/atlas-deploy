@@ -47,16 +47,16 @@ This is stored as an environment variable within the container. You can apply th
 ## Kubernetes
 If you are using Kubernetes, you first need to configure your database, as detailed above. The files referenced below are all in the `k8s` directory of this repo. Your next steps are the following:
 
-1. Create a namespace for ATLAS. You could deploy in your `default` namespace, but we recommend a namespace dedicated for ATLAS. In the examples and files, we will use `atlas-test`.
-    - To create a namespace, run the command: `kubectl create namespace atlas-test`
-    - You can verify it is created by running the command: `kubectl get namespace` and ensuring `atlas-test` is present
+1. Create a namespace for ATLAS. You could deploy in your `default` namespace, but we recommend a namespace dedicated for ATLAS. In the examples and files, we will use `atlas`.
+    - To create a namespace, run the command: `kubectl create namespace atlas`
+    - You can verify it is created by running the command: `kubectl get namespace` and ensuring `atlas` is present
 2. Configure persistent storage that can be presented to the container. If simply deploying a single replica/pod, this is straightforward and can be done in the following ways:
     - Azure: Azure Files, Azure Disks, or NFS mount
     - AWS: Elastic Block Store (EBS) or NFS mount using Elastic Files System (EFS)
     - Local: NFS mount to the container
 3. This storage should be expandable, so you can add space, as necessary. We will walk through a couple examples below
     - These commands are very dependent on your environment. I will walk through scenarios for AWS, Azure, and with local NFS.
-    - AZURE
+    - **AZURE**
         - Azure for Kubernetes provides two separate provisioners as part of the K8S StorageClass. Azure Files does not support access to the storage for multiple containers at a time, so it is **_HIGHLY RECOMMENDED_** that you use **Azure Disks**
         - To use Azure Disks, you can simply apply the StorageClass in the file `azure-files-sc.yaml`
             - `kubectl apply -f azure-files-sc.yaml`
@@ -70,35 +70,44 @@ If you are using Kubernetes, you first need to configure your database, as detai
                     - Standard_RAGRS - standard read-access geo-redundant storage (RA-GRS)
                     - Premium_LRS - premium locally redundant storage (LRS)
         - After the StorageClass is created, you simply need to create your Persistent Volume Claim
-            - `kubectl apply -f atlas-pvc.yaml`
+            - `kubectl apply -f atlas-azure-pvc.yaml`
             - As you look at this file, there are a couple things to note:
                 - `ReadWriteMany` - This allows multiple pods to write to the same PVC.
                 - `storageClassName: azure-file` - This is the name of the StorageClass configured above. You do not need to edit this, unless you changed it in the above steps.
                 - `storage: 1Gi` - This is the initial amount of storage for your file store
             - Ensure the PVC has been created:
-                - `kubectl get pvc -n atlas-test`
+                - `kubectl get pvc -n atlas`
                 - As a note, this will _automatically_ create the Persistent Volume.
-    - AWS
-        - Unfortunately AWS does not have a built-in storage class for Kubernetes for storage that allows multiple pods to Read/Write to the same storage. If you have a single pod, you can use Elastic Block Storage. For multiple pods, we will have to do the following:
-        - We will be using the Amazon Support CIFS driver to leverage a StorageClass
-            - Amazon Announcement: https://aws.amazon.com/about-aws/whats-new/2019/09/amazon-eks-announces-beta-release-of-amazon-efs-csi-driver/
-            - GitHub Repo: https://github.com/kubernetes-sigs/aws-efs-csi-driver
+    - **AWS**
+        - Unfortunately AWS does not have a built-in storage class for Kubernetes for storage that allows multiple pods to Read/Write to the same storage. If you have a single pod, you can use Elastic Block Storage. For multiple pods, we need to use Elastic File Storage (EFS).
         - Create your EFS storage in the same VPC as your Kubernetes cluster. Only static provisioning of EFS is currently supported, so you must manually provision the storage prior to the next steps
-            - When creating EFS filesystem, make sure it is accessible from Kuberenetes cluster. This can be achieved by creating the filesystem inside the same VPC as Kubernetes cluster or using VPC peering. We would recommend having it in the same VPC as K8s.
-            - 
-        - Deploy the CSI Driver
-            - `kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"`
-        - Deploy the StorageClass
-            - `kubectl apply -f apply -f aws-efs-csi-sc.yaml`
-        - Deploy the Persistent Volume Claim (PVC)
-            - 
-    - NFS
-        - 
-    - **STORAGE COMMANDS**
+            - When creating EFS filesystem, make sure it is accessible from Kubernetes cluster. This can be achieved by creating the filesystem inside the same VPC as Kubernetes cluster or using VPC peering. We would recommend having it in the same VPC as K8s.
+            - Permissions and settings are detailed here: https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html
+        - There are two ways to utilize the storage:
+            - The Amazon Supported CSI driver to leverage a StorageClass
+                - Amazon Announcement: https://aws.amazon.com/about-aws/whats-new/2019/09/amazon-eks-announces-beta-release-of-amazon-efs-csi-driver/
+                - GitHub Repo: https://github.com/kubernetes-sigs/aws-efs-csi-driver
+                - Deploy the CSI Driver
+                    - `kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"`
+                - Deploy the StorageClass
+                    - `kubectl apply -f aws-efs-csi-sc.yaml`
+                - Deploy the Persistent Volume (PV)
+                    - Edit `atlas-aws-csi-pv.yaml` and insert your `FileSystemID`.
+                    - `kubectl apply -f atlas-aws-csi-pv.yaml`
+                - Deploy the Persistent Volume Claim (PVC)
+                    - `kubectl apply -f atlas-aws-csi-pvc.yaml`
+            - Direct NFS
+                - Deploy the NFS Persistent Volume (PV)
+                    - Edit `atlas-aws-nfs-pv.yaml` and insert your `FileSystemID` and `Region` (copy from AWS).
+                    - `kubectl apply -f atlas-aws-nfs-pv.yaml`
+                - Deploy the Persistent Volume Claim (PVC)
+                    - `kubectl apply -f atlas-aws-nfs-pvc.yaml`
+    - **NFS**
+        - TBD on local NFS, but it should be very similar to the Direct NFS commands for AWS, changing the server name in `atlas-aws-nfs-pv.yaml` to your local server
 4. After you have the storage, configured you are ready to configure your ConfigMap. The ConfigMap has all the configurable attributes for ATLAS, which we will detail below. You need to **EDIT THIS** for your environment, as detailed below.
     - Overall Config
         - namespace: This is the namespace configured above
-            - Default value: `atlas-test`
+            - Default value: `atlas`
         - Domain: This is the URL of your deployment. Leave this as it is until your service is created, and then you will need to edit this and re-deploy
             - Default value: `'http://atlas.yourdomain.com'`
     - File Configuration
@@ -133,11 +142,11 @@ If you are using Kubernetes, you first need to configure your database, as detai
         - `replicas: 1` OR
         - `replicas: 3`
     - Ensure the pod or pods are running with the command:
-        - `kubectl get pods -n atlas-test`
+        - `kubectl get pods -n atlas`
 9. Now that the pods are running, we need to expose the service:
     - `kubectl apply -f atlas-svc.yaml`
     - Ensure the service is running and the IP/URL is exposed:
-        - `kubectl get svc -n atlas-test`
+        - `kubectl get svc -n atlas`
         - Copy the IP/URL from the `EXTERNAL-IP` column
 10. Update the ATLAS deploy file with the IP/URL from _Step 9_.
     - In production, you should point a standard DNS record to this address
