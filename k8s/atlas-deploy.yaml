@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: atlas
-        image: c2labs.azurecr.io/atlas:prod
+        image: c2labs/atlas:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
