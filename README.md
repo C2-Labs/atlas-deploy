@@ -7,13 +7,13 @@ Installation files and instructions for deploying C2 Labs ATLAS platform
 [Database](#database)<br>
 [Kubernetes](#kubernetes)<br>
 [Local Docker](#local_docker)<br>
-[Docker Swarm](#docker_swarm)<br>
+<!-- [Docker Swarm](#docker_swarm)<br> -->
 
 
 <a name="overview"/>
 
 ## Overview
-ATLAS is a Docker image, built using the <a href="https://www.opencontainers.org/">Open Containers Intiative (OCI)</a>. It is designed to be run in any environment that can run Docker containers. Configuration is done at runtime using environment variables. Below, we will detail how to deploy this in a Kubernetes environment, locally with Docker Desktop or standalone Docker, and with Docker Swarm (coming soon). The files necessary for these deployments are included in this GitHub repo. Some can be used as is, and some will need minor edits for your specific environment, which we will detail below. Please reach out if you have any questions.
+ATLAS is a Docker image, built using the <a href="https://www.opencontainers.org/">Open Containers Intiative (OCI)</a>. It is designed to be run in any environment that can run Docker containers. Configuration is done at runtime using environment variables. Below, we will detail how to deploy this in a Kubernetes environment and locally with Docker Desktop or standalone Docker. The files necessary for these deployments are included in this GitHub repo. Some can be used as is, and some will need minor edits for your specific environment, which we will detail below. Please reach out if you have any questions.
 
 <a name="system_reqs"/>
 
@@ -31,7 +31,7 @@ ATLAS can be scaled up or down to meet your needs. The **_MINIMUM_** requirement
 - SQL Database with 2 GB of storage
     - 5 ms (read), 10 ms (write)
     - 5 DTUs in running in Azure
-    - Aligned with SLAs for Production
+    - Standard Tier or higher, aligned with SLAs for Production
 - 10 GB of disk capacity for persistent file storage that can be expanded as needed
 <a name="database"/>
 
@@ -166,6 +166,6 @@ If you are using Kubernetes, you first need to configure your database, as detai
 
 ## Local Docker
 
-<a name="docker_swarm"/>
+<!-- <a name="docker_swarm"/>
 
-## Docker Swarm
+## Docker Swarm -->
