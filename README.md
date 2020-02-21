@@ -131,7 +131,9 @@ If you are using Kubernetes, you first need to configure your database, as detai
 5. Now deploy the ConfigMap:
     - `kubectl apply -f atlas-env.yaml`
 6. There is a similar configuration for Secrets, where passwords and other items are stored
-    - JWTSecretKey: This is your JWT Secret Key. This is generated from **TRAVIS TO ANSWER**
+    - JWTSecretKey: This is your JWT Secret Key. This can be any random value, Base 64 encoded. If you have Node.js installed you can generate this with the following command:
+        - `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`
+        - You can use other mechanisms to create this as well.
     - SQLConn: This is the SQL Connection string from above.
     - EmailPassword: This is the password to login to your SMTP server using the user defined by `EmailAddress` in the ConfigMap
 7. Now deploy the Secret:
