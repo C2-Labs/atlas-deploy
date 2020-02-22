@@ -215,7 +215,7 @@ We have created a straightforward way to run ATLAS locally, even without a datab
         - Once that is running, it will start the `atlas` container
         - The `atlas` container will wait for the database container to start and be listening on port 1433
 6. If you have a database you want to point to, edit the `atlas.env` with your information and ensure your DB server is listening on port 1433
-    - Simply run `docker run --env-file atlas.env -v /tmp:/atlas/files`
+    - Simply run `docker run --env-file atlas.env -v /tmp:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev`
 7. Following steps 5 or 6, ATLAS should now be running.
     - Point your browser to http://localhost:81
 8. Login with the default credentials and **CHANGE THEM**
