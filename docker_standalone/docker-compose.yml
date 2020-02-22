@@ -13,7 +13,7 @@ services:
 
   atlas:
     # image: c2labs.azurecr.io/atlas:dev
-    image: atlas:standalone
+    image: atlas:cdt
     hostname: atlas
     depends_on:
       - atlas-db
