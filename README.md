@@ -208,7 +208,7 @@ We have created a straightforward way to run ATLAS locally, even without a datab
         - Default value: `Your&SuperSecret+JWTSecretToken+123442534234`
     - SQLConn: This is the SQL Connection string from above.
         - If using container's DB, simply pass the password match the one you configured in db.env
-    - EmailPassword: This is the password to login to your SMTP server using the user defined by `EmailAddress` in the ConfigMap
+    - EmailPassword: This is the password to login to your SMTP server using the user defined by `EmailAddress` above
 5. If you want to stand up the database container and ATLAS, simply go into the directory where the `docker-compose.yml` file is located
     - Type `docker-compose up`
         - This will start the `atlas-db` container
