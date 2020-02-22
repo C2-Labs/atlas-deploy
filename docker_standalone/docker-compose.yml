@@ -25,8 +25,14 @@ services:
       - /tmp:/atlas/files
     env_file:
       - atlas.env
-    ## For testing
-    # entrypoint: tail -f /dev/null
+    # For testing
+    entrypoint:
+      - ./wait-for-it.sh
+      - atlas-db:1433
+      - --timeout=30
+      - --strict
+      - --
+      - ./Atlas
 
 networks:
   atlas_net:
