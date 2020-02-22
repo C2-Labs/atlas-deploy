@@ -221,6 +221,8 @@ We have created a straightforward way to run ATLAS locally, even without a datab
 8. Login with the default credentials and **CHANGE THEM**
     - Username: `admin`
     - Password: `51mpl3Compliance$`
+9. When you are done, you can clean up the containers with:
+    - `docker-compose down`
 
 
 <!-- <a name="docker_swarm"/>
