@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  atlas-db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    hostname: atlas-db
+    networks:
+      - atlas_net
+    ports:
+      - "1433:1433"
+    env_file:
+      - db.env
+
+  atlas:
+    # image: c2labs.azurecr.io/atlas:dev
+    image: atlas:standalone
+    hostname: atlas
+    depends_on:
+      - atlas-db
+    networks:
+      - atlas_net
+    ports:
+      - "81:80"
+    volumes:
+      - /tmp:/atlas/files
+    env_file:
+      - atlas.env
+    ## For testing
+    # entrypoint: tail -f /dev/null
+
+networks:
+  atlas_net:
+    driver: bridge
