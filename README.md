@@ -57,8 +57,8 @@ If you are using Kubernetes, you first need to configure your database, as detai
 3. This storage should be expandable, so you can add space, as necessary. We will walk through a couple examples below
     - These commands are very dependent on your environment. I will walk through scenarios for AWS, Azure, and with local NFS.
     - **AZURE**
-        - Azure for Kubernetes provides two separate provisioners as part of the K8S StorageClass. Azure Files does not support access to the storage for multiple containers at a time, so it is **_HIGHLY RECOMMENDED_** that you use **Azure Disks**
-        - To use Azure Disks, you can simply apply the StorageClass in the file `azure-files-sc.yaml`
+        - Azure for Kubernetes provides two separate provisioners as part of the K8S StorageClass. Azure Disks does not support access to the storage for multiple containers at a time, so it is **_HIGHLY RECOMMENDED_** that you use **Azure Files**
+        - To use Azure Files, you can simply apply the StorageClass in the file `azure-files-sc.yaml`
             - `kubectl apply -f azure-files-sc.yaml`
             - As you look at this file, there are a couple things to note:
                 - `provisioner: kubernetes.io/azure-file` - This specifies to use Azure Files, which is what we want
