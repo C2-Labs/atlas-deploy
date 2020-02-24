@@ -166,14 +166,14 @@ If you are using Kubernetes, you first need to configure your database, as detai
 ## DNS, SSL, and Ingress
 While this guide will not cover all the different DNS, SSL, and Ingress configuations possible, we will cover a few senarios that will help you route and secure traffic to Atlas. The files referenced below are all in the `k8s` directory of this repo.
 
-###### Your company already has proceedures in place to manage DNS, SSL Certificates, and a Ingress Service
+### Your company already has proceedures in place to manage DNS, SSL Certificates, and a Ingress Service
 
 1. Obtain a full chain SSL certificate that includes the root CA, intermidate cert, and the Atlas cert
 2. Obtain the Atlas certificate key
 3. Obtain a DNS record for Atlas. i.e. atlas.yourdomain.com
 4. Configure the Ingress Service to route `https://atlas.yourdomain.com` traffic to the `atlas-service`
 
-###### Cloud hosted Kubernetes with a public certificate
+### Cloud hosted Kubernetes with a public certificate
 
 1. Obtain a the full chain public SSL certificate i.e. atlas.yourdomain.com
     - Create a file called `atlas.crt` and copy the full chain certificate into the crt file, removing all text and any new line chars.  Do not remove the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` lines
@@ -219,7 +219,7 @@ While this guide will not cover all the different DNS, SSL, and Ingress configua
 
 9. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
 
-###### Cloud hosted Kubernetes with a self-signed certificate
+### Cloud hosted Kubernetes with a self-signed certificate
 
 Web browsers will not be able to validate the self-signed certificate, however the traffic will still be encrypted. 
 
