@@ -166,17 +166,21 @@ If you are using Kubernetes, you first need to configure your database, as detai
 ## DNS, SSL, and Ingress
 While this guide will not cover all the different DNS, SSL, and Ingress configuations possible, we will cover a few senarios that will help you route and secure traffic to Atlas. The files referenced below are all in the `k8s` directory of this repo.
 
-**Your company already has proceedures in place to manage DNS, SSL Certificates, and a Ingress Service**
+***Your company already has proceedures in place to manage DNS, SSL Certificates, and a Ingress Service***
+
 1. Obtain a full chain SSL certificate that includes the root CA, intermidate cert, and the Atlas cert
 2. Obtain the Atlas certificate key
 3. Obtain a DNS record for Atlas. i.e. atlas.yourdomain.com
-4. Configure the Ingress Service to route `'https://atlas.yourdomain.com'` traffic to the `atlas-service`
+4. Configure the Ingress Service to route `https://atlas.yourdomain.com` traffic to the `atlas-service`
 
-**Cloud hosted Kubernetes with a public certificate**
+***Cloud hosted Kubernetes with a public certificate***
+
 1. Obtain a the full chain public SSL certificate i.e. atlas.yourdomain.com
     - Create a file called `atlas.crt` and copy the full chain certificate into the crt file, removing all text and any new line chars.  Do not remove the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` lines
+
 2. Obtain the public SSL certificate key
     - Create a file called `atlas.key` and copy the private key into key file
+
 3. Convert the Atlas cert and key to base64:
     - Run the following commands:
 
@@ -199,11 +203,14 @@ While this guide will not cover all the different DNS, SSL, and Ingress configua
         ```
 
 6. Wait for the LoadBalancer service to start and has a external IP address
+
 7. Configure DNS
     - <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure</a>
     - <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-elb-load-balancer.html">AWS</a>
+
 7. Update the atlas-ingress.yaml file
     - Replace `atlas.yourdomain.com` with your atlas URL
+
 8. Deploy the atlas-ingress.yaml file to your Kubernetes cluster:
 
     ```
@@ -212,7 +219,8 @@ While this guide will not cover all the different DNS, SSL, and Ingress configua
 
 9. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
 
-**Cloud hosted Kubernetes with a self-signed certificate**
+***Cloud hosted Kubernetes with a self-signed certificate***
+
 Web browsers will not be able to validate the certificate, however the traffic will still be encrypted.  
 1. Create a self-signed certificate
 
@@ -246,6 +254,7 @@ Web browsers will not be able to validate the certificate, however the traffic w
         ```
 
 6. Wait for the LoadBalancer service to start and has a external IP address
+
 7. Configure DNS
     - <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure</a>
     - <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-elb-load-balancer.html">AWS</a>
