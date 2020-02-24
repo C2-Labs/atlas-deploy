@@ -182,13 +182,14 @@ While this guide will not cover all the different DNS, SSL, and Ingress configua
 
         ```
         cat atlas.crt | base64
-
         cat atlas.key | base64
         ```
 
 4. Deploy the atlas-tls-secret.yaml file to your Kubernetes cluster:
 
-    `kubectl apply -f atlas-tls-secret.yaml`
+    ```
+    kubectl apply -f atlas-tls-secret.yaml
+    ```
 
 5. Install Nginx-Ingress - We recommend installing using [Helm](#https://helm.sh/docs/intro/install/)
     - Set the Kubernetes context where you are installing atlas and run the following command:
@@ -205,29 +206,37 @@ While this guide will not cover all the different DNS, SSL, and Ingress configua
     - Replace `atlas.yourdomain.com` with your atlas URL
 8. Deploy the atlas-ingress.yaml file to your Kubernetes cluster:
 
-    `kubectl apply -f atlas-ingress.yaml`
+    ```
+    kubectl apply -f atlas-ingress.yaml
+    ```
 
 9. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
 
 **Cloud hosted Kubernetes with a self-signed certificate**
 Web browsers will not be able to validate the certificate, however the traffic will still be encrypted.  
 1. Create a self-signed certificate
-    - `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout atlas.key -out atlas.crt -subj "/CN=yourdomain.com/O=yourdomain.com"`
+
+    ```
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout atlas.key -out atlas.crt -subj "/CN=yourdomain.com/O=yourdomain.com"
+    ```
+
 2. Upload certifcate to your cloud provider
-    - [Azure](#https://docs.microsoft.com/en-us/rest/api/keyvault/importcertificate/importcertificate)
-    - [AWS](#https://aws.amazon.com/premiumsupport/knowledge-center/import-ssl-certificate-to-iam/)
+    - <a href="https://docs.microsoft.com/en-us/rest/api/keyvault/importcertificate/importcertificate">Azure</a>
+    - <a href="https://aws.amazon.com/premiumsupport/knowledge-center/import-ssl-certificate-to-iam/">AWS</a>
+
 3. Convert the Atlas cert and key to base64:
     - Run the following commands:
 
         ```
         cat atlas.crt | base64
-
         cat atlas.key | base64
         ```
 
 4. Deploy the atlas-tls-secret.yaml file to your Kubernetes cluster:
 
-    `kubectl apply -f atlas-tls-secret.yaml`
+    ```
+    kubectl apply -f atlas-tls-secret.yaml
+    ```
 
 5. Install Nginx-Ingress - We recommend installing using [Helm](#https://helm.sh/docs/intro/install/)
     - Set the Kubernetes context where you are installing atlas and run the following command:
@@ -240,11 +249,15 @@ Web browsers will not be able to validate the certificate, however the traffic w
 7. Configure DNS
     - <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure</a>
     - <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-elb-load-balancer.html">AWS</a>
+
 7. Update the atlas-ingress.yaml file
     - Replace `atlas.yourdomain.com` with your atlas URL
+
 8. Deploy the atlas-ingress.yaml file to your Kubernetes cluster:
 
-    `kubectl apply -f atlas-ingress.yaml`
+    ```
+    kubectl apply -f atlas-ingress.yaml
+    ```
     
 9. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
 
