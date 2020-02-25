@@ -9,9 +9,12 @@ If you are using Kubernetes, you first need to configure your database, as detai
     ```
     kubectl create namespace atlas
     ```
+
     - You can verify it is created by running the command:
-    ```kubectl get namespace
     ```
+    kubectl get namespace
+    ```
+
     - Ensure `atlas` is present
 2. Configure persistent storage that can be presented to the container. If simply deploying a single replica/pod, this is straightforward and can be done in the following ways:
     - Azure: Azure Files, Azure Disks, or NFS mount
@@ -25,6 +28,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
             ```
             kubectl apply -f azure-files-sc.yaml
             ```
+
             - As you look at this file, there are a couple things to note:
                 - `provisioner: kubernetes.io/azure-file` - This specifies to use Azure Files, which is what we want
                 - `allowVolumeExpansion: true` - This specifies that the volumes using this StorageClass can later be expanded, which we want to allow for additional storage later, if necessary.
@@ -38,6 +42,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
             ```
             kubectl apply -f atlas-azure-pvc.yaml
             ```
+
             - As you look at this file, there are a couple things to note:
                 - `ReadWriteMany` - This allows multiple pods to write to the same PVC.
                 - `storageClassName: azure-file` - This is the name of the StorageClass configured above. You do not need to edit this, unless you changed it in the above steps.
@@ -46,6 +51,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
                 ```
                 kubectl get pvc -n atlas
                 ```
+
                 - As a note, this will _automatically_ create the Persistent Volume.
     - **AWS**
         - Unfortunately AWS does not have a built-in storage class for Kubernetes for storage that allows multiple pods to Read/Write to the same storage. If you have a single pod, you can use Elastic Block Storage. For multiple pods, we need to use Elastic File Storage (EFS).
@@ -60,29 +66,35 @@ If you are using Kubernetes, you first need to configure your database, as detai
                     ```
                     kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
                     ```
+
                 - Deploy the StorageClass:
                     ```
                     kubectl apply -f aws-efs-csi-sc.yaml
                     ```
+
                 - Deploy the Persistent Volume (PV):
                     - Edit `atlas-aws-csi-pv.yaml` and insert your `FileSystemID`.
                     ```
                     kubectl apply -f atlas-aws-csi-pv.yaml
                     ```
+                    
                 - Deploy the Persistent Volume Claim (PVC):
                     ```
                     kubectl apply -f atlas-aws-csi-pvc.yaml
                     ```
+
             - Direct NFS
                 - Deploy the NFS Persistent Volume (PV):
                     - Edit `atlas-aws-nfs-pv.yaml` and insert your `FileSystemID` and `Region` (copy from AWS):
                     ```
                     kubectl apply -f atlas-aws-nfs-pv.yaml
                     ```
+
                 - Deploy the Persistent Volume Claim (PVC):
                     ```
                     kubectl apply -f atlas-aws-nfs-pvc.yaml
                     ```
+
     - **NFS**
         - TBD on local NFS, but it should be very similar to the Direct NFS commands for AWS, changing the server name in `atlas-aws-nfs-pv.yaml` to your local server
 4. After you have the storage, configured you are ready to configure your ConfigMap. The ConfigMap has all the configurable attributes for ATLAS, which we will detail below. You need to **EDIT THIS** for your environment, as detailed below.
@@ -113,11 +125,13 @@ If you are using Kubernetes, you first need to configure your database, as detai
     ```
     kubectl apply -f atlas-env.yaml
     ```
+
 6. There is a similar configuration for Secrets, where passwords and other items are stored
     - JWTSecretKey: This is your JWT Secret Key. This can be any random value, Base 64 encoded. If you have Node.js installed you can generate this with the following command:
         ```
         node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
         ```
+
         - You can use other mechanisms to create this as well.
     - SQLConn: This is the SQL Connection string from above.
     - EmailPassword: This is the password to login to your SMTP server using the user defined by `EmailAddress` in the ConfigMap
@@ -125,10 +139,12 @@ If you are using Kubernetes, you first need to configure your database, as detai
     ```
     kubectl apply -f atlas-secrets.yaml
     ```
+
 8. Now we are ready to deploy the ATLAS container:
     ```
     kubectl apply -f atlas-deploy.yaml
     ```
+
     - In this file, you can scale the number of replicas for ATLAS. For testing, one is fine, but we recommend at least 3 for production environments.
         - `replicas: 1` OR
         - `replicas: 3`
@@ -136,14 +152,17 @@ If you are using Kubernetes, you first need to configure your database, as detai
         ```
         kubectl get pods -n atlas
         ```
+
 9. Now that the pods are running, we need to expose the service:
     ```
     kubectl apply -f atlas-svc.yaml
     ```
+
     - Ensure the service is running and the IP/URL is exposed:
         ```
         kubectl get svc -n atlas
         ```
+
         - Copy the IP/URL from the `EXTERNAL-IP` column
 10. Update the ATLAS deploy file with the IP/URL from _Step 9_.
     - In production, you should point a standard DNS record to this address
@@ -152,6 +171,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
         ```
         kubectl apply -f atlas-deploy.yaml
         ```
+        
 11. ATLAS should now be running. Point your Web Browser to the IP/URL from _Step 9_ or the DNS entry created in _Step 10_
 12. Login with the default credentials and **CHANGE THEM**
     - Username: `admin`
