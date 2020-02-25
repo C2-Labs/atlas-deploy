@@ -1,4 +1,4 @@
-# atlas-deploy
+# ATLAS Deployment for Kubernetes
 Installation files and instructions for deploying C2 Labs ATLAS platform in a Kubernetes Environment
 
 ## Kubernetes

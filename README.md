@@ -1,4 +1,4 @@
-# atlas-deploy
+# ATLAS Deployment Instructions
 Installation files and instructions for deploying C2 Labs ATLAS platform
 
 ## Table of Contents

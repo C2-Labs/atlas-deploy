@@ -1,4 +1,4 @@
-# atlas-deploy for Local Docker
+# ATLAS Deployment for Local Docker
 Installation files and instructions for deploying C2 Labs ATLAS in a Local Docker Environment
 
 
