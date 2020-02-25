@@ -177,4 +177,4 @@ If you are using Kubernetes, you first need to configure your database, as detai
     - Username: `admin`
     - Password: `51mpl3Compliance$`
 
-[Click for more information on DNS, SSL, and Ingress](k8s/DNS-SSL-Ingress.md)
+[Click for more information on DNS, SSL, and Ingress](DNS-SSL-Ingress.md)
