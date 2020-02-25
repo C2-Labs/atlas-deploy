@@ -221,7 +221,7 @@ While this guide will not cover all the different DNS, SSL, and Ingress configua
 
 ### Cloud hosted Kubernetes with a self-signed certificate
 
-Web browsers will not be able to validate the self-signed certificate, however the traffic will still be encrypted. 
+By default, Nginx-Ingress includes a self-signed certificate called "Kubernetes Ingress Controller Fake Certificate". If you would like to replace the default self-signed certificate with your own, follow the instructions below. 
 
 1. Create a self-signed certificate
 
