@@ -176,5 +176,6 @@ If you are using Kubernetes, you first need to configure your database, as detai
 12. Login with the default credentials and **CHANGE THEM**
     - Username: `admin`
     - Password: `51mpl3Compliance$`
+    - ATLAS will force you to change this upon first login
 
 [Click for more information on DNS, SSL, and Ingress](DNS-SSL-Ingress.md)

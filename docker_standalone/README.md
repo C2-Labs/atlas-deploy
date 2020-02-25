@@ -49,6 +49,7 @@ We have created a straightforward way to run ATLAS locally, even without a datab
     ```
     docker-compose up
     ```
+
         - This will start the `atlas-db` container
         - Once that is running, it will start the `atlas` container
         - The `atlas` container will wait for the database container to start and be listening on port 1433
@@ -57,12 +58,16 @@ We have created a straightforward way to run ATLAS locally, even without a datab
     ```
     docker run --env-file atlas.env -v /tmp:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
     ```
+
 7. Following steps 5 or 6, ATLAS should now be running.
     - Point your browser to http://localhost:81
 8. Login with the default credentials and **CHANGE THEM**
     - Username: `admin`
     - Password: `51mpl3Compliance$`
+    - ATLAS will force you to change this upon first login
 9. When you are done, you can clean up the containers with:
     ```
     docker-compose down
     ```
+
+    - **_Please note, this will blow away the database and the data in it. If you want to keep the data, you should map a volume to the database, similar to what we did for the ATLAS container._**
