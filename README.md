@@ -6,7 +6,7 @@ Installation files and instructions for deploying C2 Labs ATLAS platform
 [System Requirements](#system_reqs)<br>
 [Database](#database)<br>
 [Kubernetes](k8s/README.md)<br>
-[DNS, SSL, and Ingress](#ssl)<br>
+[DNS, SSL, and Ingress](k8s/DNS-SSL-Ingress.md)<br>
 [Local Docker](docker_standalone/README.md)<br>
 <!-- [Docker Swarm](#docker_swarm)<br> -->
 
@@ -42,60 +42,6 @@ A SQL database is required to run ATLAS. This database needs to be named ATLAS. 
 `Server=tcp:{yourdatabase}.database.windows.net,1433;Initial Catalog=ATLAS;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;`
 
 This is stored as an environment variable within the container. You can apply this using Secrets or some other mechanism, which we will detail below.
-
-
-### Cloud hosted Kubernetes with a self-signed certificate
-
-By default, Nginx-Ingress includes a self-signed certificate called "Kubernetes Ingress Controller Fake Certificate". If you would like to replace the default self-signed certificate with your own, follow the instructions below. 
-
-1. Create a self-signed certificate
-
-    ```
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout atlas.key -out atlas.crt -subj "/CN=yourdomain.com/O=yourdomain.com"
-    ```
-
-2. Upload certifcate to your cloud provider
-    - <a href="https://docs.microsoft.com/en-us/rest/api/keyvault/importcertificate/importcertificate">Azure</a>
-    - <a href="https://aws.amazon.com/premiumsupport/knowledge-center/import-ssl-certificate-to-iam/">AWS</a>
-
-3. Convert the Atlas cert and key to base64:
-    - Run the following commands:
-
-        ```
-        cat atlas.crt | base64
-        cat atlas.key | base64
-        ```
-
-4. Deploy the atlas-tls-secret.yaml file to your Kubernetes cluster:
-
-    ```
-    kubectl apply -f atlas-tls-secret.yaml
-    ```
-
-5. Install Nginx-Ingress - We recommend installing using [Helm](#https://helm.sh/docs/intro/install/)
-    - Set the Kubernetes context where you are installing atlas and run the following command:
-
-        ```
-        helm install nginx-ingress stable/nginx-ingress --namespace atlas --default-ssl-certificate=default/atlas-tls-secret --set controller.replicaCount=1 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
-        ```
-
-6. Wait for the LoadBalancer service to start and has a external IP address
-
-7. Configure DNS
-    - <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure</a>
-    - <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-elb-load-balancer.html">AWS</a>
-
-7. Update the atlas-ingress.yaml file
-    - Replace `atlas.yourdomain.com` with your atlas URL
-
-8. Deploy the atlas-ingress.yaml file to your Kubernetes cluster:
-
-    ```
-    kubectl apply -f atlas-ingress.yaml
-    ```
-    
-9. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
-
 
 
 <!-- <a name="docker_swarm"/>
