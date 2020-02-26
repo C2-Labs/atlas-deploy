@@ -1,26 +1,27 @@
 # ATLAS Deployment for Local Docker
-Installation files and instructions for deploying C2 Labs ATLAS in a Local Docker Environment
-
+This document provides installation files and instructions for deploying C2 Labs ATLAS in a Local Docker Environment (laptop, desktop, or Virtual Machine (VM)).
 
 ## Local Docker
-We have created a straightforward way to run ATLAS locally, even without a database. It will spin up a local SQL container, connect to the database, initialize the database, and run ATLAS. In order to do this: 
+C2 Labs created a convenient and straightforward way to run ATLAS locally, even without connecting to a remote database. This guide will allow a customer to spin up a local SQL container, connect to the database, initialize the database, and run ATLAS; all within their stand-alone environment (laptop, desktop, or VM).  This approach allows our customers to quickly and easily test and evaluate the product without external dependencies on infrastructure (which can take a long time to provision in Enterprise environments) and with no up-front costs for the evaluation.
 
-**_PREREQUISITE: You need to have Docker installed; Docker Desktop works great_**
+In order to setup the test and evaluation environment, the customer should take the following steps: 
 
-1. Download all the files from the `docker_standalone` directory
+**_PREREQUISITE: You need to have Docker installed; the free version of Docker Desktop is sufficient**
+
+1. Download all the files from the `docker_standalone` directory; or git clone the entire repository
 2. Edit `db.env`
-    - Set `SA_PASSWORD` to a value of your choosing. Avoid special characters, as these seem to cause some issues.
-3. Create a local directory to map as a persistent volume for ATLAS. This is where ATLAS will store and files
+    - Set `SA_PASSWORD` to a secure value of your choosing. Avoid special characters, as these seem to cause some issues.  NOTE: this password is stored locally and is not available or retrievable by C2 Labs.
+3. Create a local directory to map as a persistent volume for ATLAS. This directory is where ATLAS will store files that are uploaded via the application:
     - Edit `docker-compose.yml`
-    - Change `/tmp` under `volumes` to the directory you created or you can leave it at `/tmp` if that exists on your host.
+    - Change `/tmp` under `volumes` to the directory you created or you can leave it at `/tmp` if that directory exists on your host.
 4. Edit `atlas.env`
-    - Domain: This is the URL of your deployment. Leave this as it is until your service is created, and then you will need to edit this and re-deploy
+    - Domain: This is the URL of your deployment. Leave this as is until your service is created, and then you will need to edit this value and re-deploy
         - Default value: `'http://atlas.yourdomain.com'`
     - StoredFilesPath: This is the location where the persistent storage will be mounted. You should not need to change this value, unless you change the deployment
         - Default value: `'/atlas/files'`
-    - PermittedFileExtensions: These are the file types that are allowed to be uploaded through the platform
+    - PermittedFileExtensions: These are the file types that are allowed to be uploaded through the platform.  You can add additional files as necessary or remove extensions below to make them more restrictive.
         - Default value: `'.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'`
-    - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this larger than that.
+    - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this varialbe larger than that.
         - Default value: `"104857600"`
     - Email Configuration
         - Email: From/Reply-To address used when sending emails
@@ -37,31 +38,31 @@ We have created a straightforward way to run ATLAS locally, even without a datab
         - Default value: `atlas-db`
     - DB_PORT: Port for the database. **DO NOT CHANGE IF USING docker-compose**
         - Default value: `1433`
-    - JWTSecretKey: This is your JWT Secret Key. This can be any random value, Base 64 encoded. If you have Node.js installed you can generate this with the following command:
+    - JWTSecretKey: This is your JWT Secret Key. This can be any random value, Base 64 encoded. If you have Node.js installed you can generate the key with the following command:
         - `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`
-        - You can use other mechanisms to create this as well.
+        - You can use any other mechanism to create this key.  However, it should be long and secure key as it will be changed infrequently (or never) as it will invalidate all open sessions after being deployed.
         - Default value: `Your&SuperSecret+JWTSecretToken+123442534234`
     - SQLConn: This is the SQL Connection string from above.
-        - If using container's DB, simply pass the password match the one you configured in db.env
-    - EmailPassword: This is the password to login to your SMTP server using the user defined by `EmailAddress` above
-5. If you want to stand up the database container and ATLAS, simply go into the directory where the `docker-compose.yml` file is located
+        - If using container's DB, simply configure the password to match the one configured in db.env.  All other components should stay the same.  NOTE: If you wish to connect to an external database, you can provide a full connection string and avoid provisioning an in-memory database locally.  Also note that any data saved will be lost if the container running the database is stopped.
+    - EmailPassword: This is the password to login to your SMTP server using the user defined by the `EmailAddress` above
+5. If you want to stand up the database container and ATLAS, navigate into the directory where the `docker-compose.yml` file is located
     - Type:
     ```
     docker-compose up
     ```
 
-        - This will start the `atlas-db` container
-        - Once that is running, it will start the `atlas` container
+        - This command will start the `atlas-db` container
+        - Once the database is running, it will start the `atlas` container
         - The `atlas` container will wait for the database container to start and be listening on port 1433
-6. If you have a database you want to point to, edit the `atlas.env` with your information and ensure your DB server is listening on port 1433
+6. If you have a database you want to point to, edit the `atlas.env` with your database connection string and ensure your DB server is listening on port 1433
     - Simply run:
     ```
     docker run --env-file atlas.env -v /tmp:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
     ```
 
-7. Following steps 5 or 6, ATLAS should now be running.
+7. Following steps 5 or 6, ATLAS should now be running locally on a single container.
     - Point your browser to http://localhost:81
-8. Login with the default credentials and **CHANGE THEM**
+8. Login with the default credentials and **CHANGE THEM** 
     - Username: `admin`
     - Password: `51mpl3Compliance$`
     - ATLAS will force you to change this upon first login
@@ -70,4 +71,4 @@ We have created a straightforward way to run ATLAS locally, even without a datab
     docker-compose down
     ```
 
-    - **_Please note, this will blow away the database and the data in it. If you want to keep the data, you should map a volume to the database, similar to what we did for the ATLAS container._**
+    - **_Please note, this will blow away the database and the data in it. If you want to keep the data, you should map a volume to the database, similar to what was done for the ATLAS container._**
