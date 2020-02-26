@@ -1,5 +1,5 @@
 # Integrations for ATLAS
-ATLAS continues to have a growing list of Integrations. Most of these are included in the Enterprise Edition. Details about each and configuration options are included below:
+ATLAS continues to add integrations based on customer demand. Supported C2 Labs integrations are only included in the paid Enterprise Edition of ATLAS.  However, customers may develop their own custom integrations using the 100+ REST APIs available within ATLAS Community Edition. Details about each integration and their associated configuration options are included below:
 
 ## Table of Contents
 [Slack](#slack)<br>
@@ -9,14 +9,14 @@ ATLAS continues to have a growing list of Integrations. Most of these are includ
 <a name="Slack"/>
 
 ## Slack - Enterprise Feature
-ATLAS currently provides one-way integration with Slack. When a news feed item is created, whether manually or automatically, this will write to the channel of your choosing.
+ATLAS currently provides a one-way integration with Slack. When a news feed item is created, the Slack integration will write updates from ATLAS to the channel of your choosing.  The update will include information about the event, the record that was updated, and a link back to the record in ATLAS.  This feature allows Enterprise customers to collaborate on ATLAS, get notifications, and script response actions within Teams based on customer preference and their business processes.
 
 ### Slack Setup Instructions - Coming Soon
 
 <a name="MS Teams"/>
 
 ## Microsoft Teams - Enterprise Feature
-ATLAS currently provides one-way integration with Microsoft Teams. When a news feed item is created, whether manually or automatically, this will write to the channel of your choosing.
+ATLAS currently provides a one-way integration with Microsoft Teams. When a news feed item is created, the Teams integration will write updates to the channel of your choosing.  The update will include information about the event, the record that was updated, and a link back to the record in ATLAS.  This feature allows Enterprise customers to collaborate on ATLAS, get notifications, and build automated bots within Teams based on customer preference and their business processes.
 
 ### Teams Setup Instructions - Coming Soon
 
@@ -24,3 +24,7 @@ ATLAS currently provides one-way integration with Microsoft Teams. When a news f
 
 ## COMING SOON
 - AD/External authentication
+- ServiceNow integration
+- Tenable/Nessus integration
+- Splunk integration
+- Outlook integration

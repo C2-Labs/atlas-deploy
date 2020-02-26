@@ -1,11 +1,11 @@
 # DNS, SSL, and Ingress for Kubernetes
-Instructions for configuring DNS, SSL, and Ingress for Kubernetes
+This document contains instructions for configuring DNS, SSL, and Ingress for Kubernetes.
 
 
 ## DNS, SSL, and Ingress
-While this guide will not cover all the different DNS, SSL, and Ingress configuations possible, we will cover a few senarios that will help you route and secure traffic to Atlas. The files referenced below are all in the `k8s` directory of this repo.
+While this guide will not cover all the different aspects of DNS, SSL, and Ingress configuations possible, we will cover a few senarios that will help you route and secure traffic to Atlas. The files referenced below are all in the `k8s` directory of this repo.
 
-### Your company already has proceedures in place to manage DNS, SSL Certificates, and a Ingress Service
+### Your company already has procedures in place to manage DNS, SSL Certificates, and a Ingress Service
 
 1. Obtain a full chain SSL certificate that includes the root CA, intermidate cert, and the Atlas cert
 2. Obtain the Atlas certificate key
@@ -41,7 +41,7 @@ While this guide will not cover all the different DNS, SSL, and Ingress configua
         helm install nginx-ingress stable/nginx-ingress --namespace atlas --default-ssl-certificate=default/atlas-tls-secret --set controller.replicaCount=1 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
         ```
 
-6. Wait for the LoadBalancer service to start and has a external IP address
+6. Wait for the LoadBalancer service to start and provide an external IP address
 
 7. Configure DNS
     - <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure</a>
@@ -60,7 +60,7 @@ While this guide will not cover all the different DNS, SSL, and Ingress configua
 
 ### Cloud hosted Kubernetes with a self-signed certificate
 
-By default, Nginx-Ingress includes a self-signed certificate called "Kubernetes Ingress Controller Fake Certificate". If you would like to replace the default self-signed certificate with your own, follow the instructions below. 
+By default, Nginx-Ingress includes a self-signed certificate called "Kubernetes Ingress Controller Fake Certificate". If you would like to replace the default self-signed certificate with your own self-signed certificate, follow the instructions below. NOTE: C2 Labs recommends the use of signed certificates from a trusted authority to verify authenticity and to reduce the number of browser security warnings encountered by end users.
 
 1. Create a self-signed certificate
 
@@ -93,7 +93,7 @@ By default, Nginx-Ingress includes a self-signed certificate called "Kubernetes 
         helm install nginx-ingress stable/nginx-ingress --namespace atlas --default-ssl-certificate=default/atlas-tls-secret --set controller.replicaCount=1 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
         ```
 
-6. Wait for the LoadBalancer service to start and has a external IP address
+6. Wait for the LoadBalancer service to start and provide an external IP address
 
 7. Configure DNS
     - <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure</a>
