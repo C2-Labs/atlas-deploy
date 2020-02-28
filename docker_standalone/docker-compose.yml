@@ -8,6 +8,8 @@ services:
       - atlas_net
     ports:
       - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
     env_file:
       - db.env
 
@@ -22,14 +24,13 @@ services:
     ports:
       - "81:80"
     volumes:
-      - /tmp:/atlas/files
+      - /tmp/atlas/files:/atlas/files
     env_file:
       - atlas.env
-    # For testing
     entrypoint:
       - ./wait-for-it.sh
       - atlas-db:1433
-      - --timeout=30
+      - --timeout=90
       - --strict
       - --
       - ./Atlas
@@ -37,3 +38,5 @@ services:
 networks:
   atlas_net:
     driver: bridge
+volumes:
+  sqlvolume:
