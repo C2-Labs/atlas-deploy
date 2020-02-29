@@ -24,7 +24,7 @@ services:
     ports:
       - "81:80"
     volumes:
-      - /tmp/atlas/files:/atlas/files
+      - atlasvolume:/atlas/files
     env_file:
       - atlas.env
     entrypoint:
@@ -40,3 +40,4 @@ networks:
     driver: bridge
 volumes:
   sqlvolume:
+  atlasvolume:

@@ -54,10 +54,15 @@ In order to setup the test and evaluation environment, the customer should take 
         - This command will start the `atlas-db` container
         - Once the database is running, it will start the `atlas` container
         - The `atlas` container will wait for the database container to start and be listening on port 1433
+    - To run run this in the background you can alternately run:
+    ```
+    docker-compose up -d
+    ```
+
 6. If you have a database you want to point to, edit the `atlas.env` with your database connection string and ensure your DB server is listening on port 1433
     - Simply run:
     ```
-    docker run --env-file atlas.env -v /tmp:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
+    docker run --env-file atlas.env -v atlasvolume:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
     ```
 
 7. Following steps 5 or 6, ATLAS should now be running locally on a single container.
@@ -71,4 +76,21 @@ In order to setup the test and evaluation environment, the customer should take 
     docker-compose down
     ```
 
-    - **_Please note, this will blow away the database and the data in it. If you want to keep the data, you should map a volume to the database, similar to what was done for the ATLAS container._**
+**_Please note, the Docker volumes are created and will remain, so your data will remain. If you want to remove all the data or start fresh, run the following commands_**
+
+1. Verify your volume names:
+    ```
+    docker volume ls
+    ```
+
+2. You should see output similar to(or exactly like) the following:
+    ```
+    DRIVER              VOLUME NAME
+    local               docker_standalone_atlasvolume
+    local               docker_standalone_sqlvolume
+    ```
+
+3. Remove both of the volumes, using the names from the command above:
+    ```
+    docker volume rm docker_standalone_atlasvolume docker_standalone_sqlvolume
+    ```
