@@ -54,7 +54,7 @@ In order to setup the test and evaluation environment, the customer should take 
         - This command will start the `atlas-db` container
         - Once the database is running, it will start the `atlas` container
         - The `atlas` container will wait for the database container to start and be listening on port 1433
-    - To run run this in the background you can alternately run:
+    - To run this command in the background you can **_alternately_** run:
     ```
     docker-compose up -d
     ```
@@ -75,8 +75,8 @@ In order to setup the test and evaluation environment, the customer should take 
     ```
     docker-compose down
     ```
-
-**_Please note, the Docker volumes are created and will remain, so your data will remain. If you want to remove all the data or start fresh, run the following commands_**
+### Remove Volumes
+Please note, the Docker volumes are created and will remain, so your data will remain. If you want to **_REMOVE_** all the data or start fresh, run the following commands
 
 1. Verify your volume names:
     ```

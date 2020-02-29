@@ -8,7 +8,7 @@ Installation files and instructions for deploying the C2 Labs ATLAS platform
 [Deployment Scenarios](#scenarios)<br>
 [Kubernetes](k8s/README.md)<br>
 [DNS, SSL, and Ingress](k8s/DNS-SSL-Ingress.md)<br>
-[Local Docker](docker_standalone/README.md)<br>
+[Local Docker/Docker Standalone](docker_standalone/README.md)<br>
 <!-- [Docker Swarm](#docker_swarm)<br> -->
 
 
