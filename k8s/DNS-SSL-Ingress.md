@@ -86,27 +86,33 @@ By default, Nginx-Ingress includes a self-signed certificate called "Kubernetes 
     kubectl apply -f atlas-tls-secret.yaml
     ```
 
-5. Install Nginx-Ingress - We recommend installing using [Helm](#https://helm.sh/docs/intro/install/)
+5. Deploy the atlas-ingress-cm.yaml file to your Kubernetes cluster:
+
+    ```
+    kubectl apply -f atlas-ingress-cm.yaml
+    ```
+
+6. Install Nginx-Ingress - We recommend installing using [Helm](#https://helm.sh/docs/intro/install/)
     - Set the Kubernetes context where you are installing atlas and run the following command:
 
         ```
         helm install nginx-ingress stable/nginx-ingress --namespace atlas --default-ssl-certificate=default/atlas-tls-secret --set controller.replicaCount=1 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
         ```
 
-6. Wait for the LoadBalancer service to start and provide an external IP address
+7. Wait for the LoadBalancer service to start and provide an external IP address
 
-7. Configure DNS
+8. Configure DNS
     - <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure</a>
     - <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-elb-load-balancer.html">AWS</a>
 
-7. Update the atlas-ingress.yaml file
+9. Update the atlas-ingress.yaml file
     - Replace `atlas.yourdomain.com` with your atlas URL
 
-8. Deploy the atlas-ingress.yaml file to your Kubernetes cluster:
+10. Deploy the atlas-ingress.yaml file to your Kubernetes cluster:
 
     ```
     kubectl apply -f atlas-ingress.yaml
     ```
-    
-9. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
+  
+11. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
 
