@@ -126,7 +126,12 @@ If you are using Kubernetes, you first need to configure your database, as detai
         - StoredFilesPath: This is the location where the persistent storage will be mounted. You should not need to change this value, unless you change the deployment
             - Default value: `'/atlas/files'`
         - PermittedFileExtensions: These are the file types that are allowed to be uploaded through the platform.  The customer can whitelist additional file types and/or remove types below to make it more restrictive.
-            - Default value: `'.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'`
+            - Default value:
+
+                ```
+                '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'
+                ```
+                
     - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if set larger than that.
         - Default value: `"104857600"`
     - Email Configuration
