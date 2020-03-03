@@ -6,7 +6,16 @@ C2 Labs created a convenient and straightforward way to run ATLAS locally, even 
 
 In order to setup the test and evaluation environment, the customer should take the following steps: 
 
-**_PREREQUISITE: You need to have Docker installed; the free version of Docker Desktop is sufficient_**
+## PREREQUISITES
+
+1. You need to have Docker installed; the free version of Docker Desktop is sufficient
+2. You need to have access to Docker Hub
+3. During Beta period, your Docker Hub ID needs access to the repository, `c2labs/atlas-c2internal`
+4. Perform a `docker login` with that User ID (this can also force a download to make sure you have the right image)
+    - If you want to test, you can manually pull the image:
+    ```
+    docker pull c2labs/atlas-c2internal:0.1.0-beta
+    ```
 
 ### Prepare Configurations
 1. Download all the files from the `docker_standalone` directory; or git clone the entire repository

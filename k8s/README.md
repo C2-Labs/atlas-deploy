@@ -2,9 +2,18 @@
 This document contains installation files and instructions for deploying C2 Labs ATLAS platform in a Kubernetes production-ready environment.
 
 ## Kubernetes
-If you are using Kubernetes, you first need to configure your database, as detailed [HERE](https://github.com/C2-Labs/atlas-deploy/blob/master/README.md). The files referenced below are all in the `k8s` directory of this repo. Your next steps are as follows:
+If you are using Kubernetes, you first need to configure your database, as detailed [HERE](https://github.com/C2-Labs/atlas-deploy/blob/master/README.md). The files referenced below are all in the `k8s` directory of this repo. Your next steps are as follows.
 
-1. Create a namespace for ATLAS. You could deploy in your `default` namespace, but we recommend a namespace dedicated for ATLAS to avoid collisions with other applications (NOTE: If you have more than one instance of Atlas, you could create additional namespaces and deployments for atlas-dev, atlas-qa, etc.). In the examples and files below, we will use `atlas`.
+## PREREQUISITES
+
+1. You need to have a working knowledge of Kubernetes
+2. Your Kubernetes cluster needs to have access to Docker Hub
+3. During Beta period, your Docker Hub ID needs access to the private Docker repository, `c2labs/atlas-c2internal`
+4. Follow the instructions [HERE](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) to allow Kubernetes to have access to the above repo, using your credentials
+
+## Deployment
+
+1. Create a namespace for ATLAS. You could deploy in your `default` namespace, but we recommend a namespace dedicated for ATLAS to avoid collisions with other applications (NOTE: If you have more than one instance of ATLAS, you could create additional namespaces and deployments for `atlas-dev`, `atlas-qa`, etc.). In the examples and files below, we will use `atlas`.
     - To create a namespace, run the command:
     ```
     kubectl create namespace atlas
