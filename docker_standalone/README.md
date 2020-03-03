@@ -13,9 +13,9 @@ In order to setup the test and evaluation environment, the customer should take 
 3. During Beta period, your Docker Hub ID needs access to the repository, `c2labs/atlas-c2internal`
 4. Perform a `docker login` with that User ID (this can also force a download to make sure you have the right image)
     - If you want to test, you can manually pull the image:
-    ```
-    docker pull c2labs/atlas-c2internal:0.1.0-beta
-    ```
+        ```
+        docker pull c2labs/atlas-c2internal:0.1.0-beta
+        ```
 
 ### Prepare Configurations
 1. Download all the files from the `docker_standalone` directory; or git clone the entire repository
@@ -67,15 +67,15 @@ In order to setup the test and evaluation environment, the customer should take 
         - Once the database is running, it will start the `atlas` container
         - The `atlas` container will wait for the database container to start and be listening on port 1433
     - To run this command in the background you can **_alternately_** run:
-    ```
-    docker-compose up -d
-    ```
+        ```
+        docker-compose up -d
+        ```
 
 2. If you have a database you want to point to, edit the `atlas.env` with your database connection string and ensure your DB server is listening on port 1433
     - Simply run:
-    ```
-    docker run --env-file atlas.env -v atlasvolume:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
-    ```
+        ```
+        docker run --env-file atlas.env -v atlasvolume:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
+        ```
 
 3. Following steps 5 or 6, ATLAS should now be running locally on a single container.
     - Point your browser to http://localhost:81
