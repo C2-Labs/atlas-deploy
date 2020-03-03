@@ -30,7 +30,12 @@ In order to setup the test and evaluation environment, the customer should take 
     - StoredFilesPath: This is the location where the persistent storage will be mounted. You should not need to change this value, unless you change the deployment
         - Default value: `'/atlas/files'`
     - PermittedFileExtensions: These are the file types that are allowed to be uploaded through the platform.  You can add additional files as necessary or remove extensions below to make them more restrictive.
-        - Default value: `'.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'`
+        - Default value:
+        
+            ```
+            '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'
+            ```
+
     - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this varialbe larger than that.
         - Default value: `"104857600"`
     - Email Configuration
