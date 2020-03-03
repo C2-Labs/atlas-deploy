@@ -59,6 +59,7 @@ In order to setup the test and evaluation environment, the customer should take 
 ### Run ATLAS
 1. If you want to stand up the database container and ATLAS, navigate into the directory where the `docker-compose.yml` file is located
     - Type:
+
         ```
         docker-compose up
         ```
@@ -67,12 +68,14 @@ In order to setup the test and evaluation environment, the customer should take 
         - Once the database is running, it will start the `atlas` container
         - The `atlas` container will wait for the database container to start and be listening on port 1433
     - To run this command in the background you can **_alternately_** run:
+
         ```
         docker-compose up -d
         ```
 
 2. If you have a database you want to point to, edit the `atlas.env` with your database connection string and ensure your DB server is listening on port 1433
     - Simply run:
+
         ```
         docker run --env-file atlas.env -v atlasvolume:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
         ```
@@ -84,6 +87,7 @@ In order to setup the test and evaluation environment, the customer should take 
     - Password: `51mpl3Compliance$`
     - ATLAS will force you to change this upon first login
 5. When you are done, you can clean up the containers with:
+
     ```
     docker-compose down
     ```
@@ -94,11 +98,13 @@ In order to setup the test and evaluation environment, the customer should take 
 Please note, the Docker volumes are created and will remain, so your data will remain. If you want to **_REMOVE_** all the data or start fresh, run the following commands
 
 1. Verify your volume names:
+
     ```
     docker volume ls
     ```
 
 2. You should see output similar to(or exactly like) the following:
+
     ```
     DRIVER              VOLUME NAME
     local               docker_standalone_atlasvolume
@@ -106,6 +112,7 @@ Please note, the Docker volumes are created and will remain, so your data will r
     ```
 
 3. Remove both of the volumes, using the names from the command above:
+
     ```
     docker volume rm docker_standalone_atlasvolume docker_standalone_sqlvolume
     ```

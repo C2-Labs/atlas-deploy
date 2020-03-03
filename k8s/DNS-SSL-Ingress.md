@@ -115,4 +115,3 @@ By default, Nginx-Ingress includes a self-signed certificate called "Kubernetes 
     ```
   
 11. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
-
