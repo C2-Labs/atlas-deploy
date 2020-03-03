@@ -59,10 +59,9 @@ In order to setup the test and evaluation environment, the customer should take 
 ### Run ATLAS
 1. If you want to stand up the database container and ATLAS, navigate into the directory where the `docker-compose.yml` file is located
     - Type:
-    
-    ```
-    docker-compose up
-    ```
+        ```
+        docker-compose up
+        ```
 
         - This command will start the `atlas-db` container
         - Once the database is running, it will start the `atlas` container
