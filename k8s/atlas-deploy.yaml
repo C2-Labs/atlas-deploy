@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: atlas
-        image: c2labs/atlas:latest
+        image: c2labs/atlas-c2internal:0.1.0-beta
         imagePullPolicy: Always
         ports:
         - containerPort: 80

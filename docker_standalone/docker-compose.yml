@@ -14,8 +14,7 @@ services:
       - db.env
 
   atlas:
-    image: c2labs.azurecr.io/atlas:dev
-    # image: atlas:cdt
+    image: c2labs/atlas-c2internal:0.1.0-beta
     hostname: atlas
     depends_on:
       - atlas-db
