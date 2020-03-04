@@ -6,7 +6,16 @@ C2 Labs created a convenient and straightforward way to run ATLAS locally, even 
 
 In order to setup the test and evaluation environment, the customer should take the following steps: 
 
-**_PREREQUISITE: You need to have Docker installed; the free version of Docker Desktop is sufficient_**
+## PREREQUISITES
+
+1. You need to have Docker installed; the free version of Docker Desktop is sufficient
+2. You need to have access to Docker Hub
+3. During Beta period, your Docker Hub ID needs access to the repository, `c2labs/atlas-c2internal`
+4. Perform a `docker login` with that User ID (this can also force a download to make sure you have the right image)
+    - If you want to test, you can manually pull the image:
+        ```
+        docker pull c2labs/atlas-c2internal:0.1.0-beta
+        ```
 
 ### Prepare Configurations
 1. Download all the files from the `docker_standalone` directory; or git clone the entire repository
@@ -21,7 +30,12 @@ In order to setup the test and evaluation environment, the customer should take 
     - StoredFilesPath: This is the location where the persistent storage will be mounted. You should not need to change this value, unless you change the deployment
         - Default value: `'/atlas/files'`
     - PermittedFileExtensions: These are the file types that are allowed to be uploaded through the platform.  You can add additional files as necessary or remove extensions below to make them more restrictive.
-        - Default value: `'.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'`
+        - Default value:
+        
+            ```
+            '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'
+            ```
+
     - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this varialbe larger than that.
         - Default value: `"104857600"`
     - Email Configuration
@@ -50,23 +64,26 @@ In order to setup the test and evaluation environment, the customer should take 
 ### Run ATLAS
 1. If you want to stand up the database container and ATLAS, navigate into the directory where the `docker-compose.yml` file is located
     - Type:
-    ```
-    docker-compose up
-    ```
+
+        ```
+        docker-compose up
+        ```
 
         - This command will start the `atlas-db` container
         - Once the database is running, it will start the `atlas` container
         - The `atlas` container will wait for the database container to start and be listening on port 1433
     - To run this command in the background you can **_alternately_** run:
-    ```
-    docker-compose up -d
-    ```
+
+        ```
+        docker-compose up -d
+        ```
 
 2. If you have a database you want to point to, edit the `atlas.env` with your database connection string and ensure your DB server is listening on port 1433
     - Simply run:
-    ```
-    docker run --env-file atlas.env -v atlasvolume:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
-    ```
+
+        ```
+        docker run --env-file atlas.env -v atlasvolume:/atlas/files -p 81:80 c2labs.azurecr.io/atlas:dev
+        ```
 
 3. Following steps 5 or 6, ATLAS should now be running locally on a single container.
     - Point your browser to http://localhost:81
@@ -75,6 +92,7 @@ In order to setup the test and evaluation environment, the customer should take 
     - Password: `51mpl3Compliance$`
     - ATLAS will force you to change this upon first login
 5. When you are done, you can clean up the containers with:
+
     ```
     docker-compose down
     ```
@@ -85,11 +103,13 @@ In order to setup the test and evaluation environment, the customer should take 
 Please note, the Docker volumes are created and will remain, so your data will remain. If you want to **_REMOVE_** all the data or start fresh, run the following commands
 
 1. Verify your volume names:
+
     ```
     docker volume ls
     ```
 
 2. You should see output similar to(or exactly like) the following:
+
     ```
     DRIVER              VOLUME NAME
     local               docker_standalone_atlasvolume
@@ -97,6 +117,7 @@ Please note, the Docker volumes are created and will remain, so your data will r
     ```
 
 3. Remove both of the volumes, using the names from the command above:
+
     ```
     docker volume rm docker_standalone_atlasvolume docker_standalone_sqlvolume
     ```

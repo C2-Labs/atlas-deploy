@@ -2,18 +2,29 @@
 This document contains installation files and instructions for deploying C2 Labs ATLAS platform in a Kubernetes production-ready environment.
 
 ## Kubernetes
-If you are using Kubernetes, you first need to configure your database, as detailed [HERE](https://github.com/C2-Labs/atlas-deploy/blob/master/README.md). The files referenced below are all in the `k8s` directory of this repo. Your next steps are as follows:
+If you are using Kubernetes, you first need to configure your database, as detailed [HERE](https://github.com/C2-Labs/atlas-deploy/blob/master/README.md). The files referenced below are all in the `k8s` directory of this repo. Your next steps are as follows.
 
-1. Create a namespace for ATLAS. You could deploy in your `default` namespace, but we recommend a namespace dedicated for ATLAS to avoid collisions with other applications (NOTE: If you have more than one instance of Atlas, you could create additional namespaces and deployments for atlas-dev, atlas-qa, etc.). In the examples and files below, we will use `atlas`.
+## PREREQUISITES
+
+1. You need to have a working knowledge of Kubernetes
+2. Your Kubernetes cluster needs to have access to Docker Hub
+3. During Beta period, your Docker Hub ID needs access to the private Docker repository, `c2labs/atlas-c2internal`
+4. Follow the instructions [HERE](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) to allow Kubernetes to have access to the above repo, using your credentials
+
+## Deployment
+
+1. Create a namespace for ATLAS. You could deploy in your `default` namespace, but we recommend a namespace dedicated for ATLAS to avoid collisions with other applications (NOTE: If you have more than one instance of ATLAS, you could create additional namespaces and deployments for `atlas-dev`, `atlas-qa`, etc.). In the examples and files below, we will use `atlas`.
     - To create a namespace, run the command:
-    ```
-    kubectl create namespace atlas
-    ```
+    
+        ```
+        kubectl create namespace atlas
+        ```
 
     - You can verify it is created by running the command:
-    ```
-    kubectl get namespace
-    ```
+
+        ```
+        kubectl get namespace
+        ```
 
     - Ensure `atlas` is present
 2. The customer must configure persistent storage that can be presented to the container. The storage must be configured to allow read/write from multiple containers which can be done in the following ways:
@@ -24,6 +35,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
     - **AZURE**
         - Azure for Kubernetes provides two separate provisioners as part of the K8S StorageClass. Azure Disks does not support access to the storage for multiple containers at a time, so it is **_HIGHLY RECOMMENDED_** that you use **Azure Files**
         - To use Azure Files, you can simply apply the StorageClass in the file `azure-files-sc.yaml`:
+
             ```
             kubectl apply -f azure-files-sc.yaml
             ```
@@ -38,6 +50,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
                     - Standard_RAGRS - standard read-access geo-redundant storage (RA-GRS)
                     - Premium_LRS - premium locally redundant storage (LRS)
         - After the StorageClass is created, you must create your Persistent Volume Claim:
+
             ```
             kubectl apply -f atlas-azure-pvc.yaml
             ```
@@ -47,6 +60,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
                 - `storageClassName: azure-file` - This config is the name of the StorageClass configured above. You do not need to edit this, unless you changed it in the above steps.
                 - `storage: 1Gi` - This is the initial amount of storage for your file store, default configuration is 1 GB but the customer may configure to meet their needs
             - Ensure the PVC has been created:
+
                 ```
                 kubectl get pvc -n atlas
                 ```
@@ -62,22 +76,26 @@ If you are using Kubernetes, you first need to configure your database, as detai
                 - Amazon Announcement: https://aws.amazon.com/about-aws/whats-new/2019/09/amazon-eks-announces-beta-release-of-amazon-efs-csi-driver/
                 - GitHub Repo: https://github.com/kubernetes-sigs/aws-efs-csi-driver
                 - Deploy the CSI Driver:
+
                     ```
                     kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
                     ```
 
                 - Deploy the StorageClass:
+
                     ```
                     kubectl apply -f aws-efs-csi-sc.yaml
                     ```
 
                 - Deploy the Persistent Volume (PV):
-                    - Edit `atlas-aws-csi-pv.yaml` and insert your `FileSystemID`.
-                    ```
-                    kubectl apply -f atlas-aws-csi-pv.yaml
-                    ```
+                    - Edit `atlas-aws-csi-pv.yaml` and insert your `FileSystemID`
+
+                        ```
+                        kubectl apply -f atlas-aws-csi-pv.yaml
+                        ```
                     
                 - Deploy the Persistent Volume Claim (PVC):
+
                     ```
                     kubectl apply -f atlas-aws-csi-pvc.yaml
                     ```
@@ -85,11 +103,13 @@ If you are using Kubernetes, you first need to configure your database, as detai
             - Direct NFS
                 - Deploy the NFS Persistent Volume (PV):
                     - Edit `atlas-aws-nfs-pv.yaml` and insert your `FileSystemID` and `Region` (copy from AWS):
-                    ```
-                    kubectl apply -f atlas-aws-nfs-pv.yaml
-                    ```
+
+                        ```
+                        kubectl apply -f atlas-aws-nfs-pv.yaml
+                        ```
 
                 - Deploy the Persistent Volume Claim (PVC):
+
                     ```
                     kubectl apply -f atlas-aws-nfs-pvc.yaml
                     ```
@@ -106,7 +126,12 @@ If you are using Kubernetes, you first need to configure your database, as detai
         - StoredFilesPath: This is the location where the persistent storage will be mounted. You should not need to change this value, unless you change the deployment
             - Default value: `'/atlas/files'`
         - PermittedFileExtensions: These are the file types that are allowed to be uploaded through the platform.  The customer can whitelist additional file types and/or remove types below to make it more restrictive.
-            - Default value: `'.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'`
+            - Default value:
+
+                ```
+                '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'
+                ```
+                
     - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if set larger than that.
         - Default value: `"104857600"`
     - Email Configuration
@@ -121,12 +146,14 @@ If you are using Kubernetes, you first need to configure your database, as detai
         - SmtpServer: Address for SMTP server used for **sending** email
             - Default value: `smtp.yourdomain.com` or for Office365, use `smtp.office365.com`
 5. Now deploy the ConfigMap:
+
     ```
     kubectl apply -f atlas-env.yaml
     ```
 
 6. There is a similar configuration for Secrets, where passwords and other sensitive items are stored to prevent showing them in clear text.  
     - JWTSecretKey: This is your JWT Secret Key. This can be any random value, Base 64 encoded. If you have Node.js installed you can generate this with the following command:
+    
         ```
         node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
         ```
@@ -134,12 +161,14 @@ If you are using Kubernetes, you first need to configure your database, as detai
         - You can use other mechanisms to create this as well.  However, it should be a long and secure value as it should change infrequently or never.  NOTE - changing this key and deploying will invalidate all active sessions and cause an outage.
     - SQLConn: This is the SQL Connection string for the database.
     - EmailPassword: This is the password to login to your SMTP server using the user defined by `EmailAddress` in the ConfigMap
+
 7. Now deploy the Secret:
     ```
     kubectl apply -f atlas-secrets.yaml
     ```
 
 8. Now we are ready to deploy the ATLAS container:
+
     ```
     kubectl apply -f atlas-deploy.yaml
     ```
@@ -148,16 +177,19 @@ If you are using Kubernetes, you first need to configure your database, as detai
         - `replicas: 1` OR
         - `replicas: 3`
     - Ensure the pod or pods are running with the command:
+
         ```
         kubectl get pods -n atlas
         ```
 
 9. Now that the pods are running, we need to expose the service:
+
     ```
     kubectl apply -f atlas-svc.yaml
     ```
 
     - Ensure the service is running and the IP/URL is exposed:
+
         ```
         kubectl get svc -n atlas
         ```
@@ -167,6 +199,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
     - In production, you should point a standard DNS record to this address
     - For testing, we can simply paste this value into the `Domain` value in the `atlas-deploy.yaml` file.
     - Reapply the deployment:
+
         ```
         kubectl apply -f atlas-deploy.yaml
         ```

@@ -77,7 +77,7 @@ There are several common ways to deploy ATLAS (NOTE: Additional deployment optio
         - Uses a lot of laptop battery if running kubelet on Docker Desktop
 - [ATLAS Stand-Alone with Local Docker](docker_standalone/README.md)
     - Quick Start
-        - This is the preferred method to initially test and evaluate ATLAS 
+        - **_This is the preferred method to initially test and evaluate ATLAS_**
     - PROS
         - Very quick to set up
         - Runs on local computer/laptop or a single Windows/Linux Virtual Machine (VM)
