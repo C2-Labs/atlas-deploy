@@ -80,38 +80,40 @@ By default, Nginx-Ingress includes a self-signed certificate called "Kubernetes 
         cat atlas.key | base64
         ```
 
-4. Deploy the atlas-tls-secret.yaml file to your Kubernetes cluster:
+4. Copy the base64 results from step 3 and update the respective fields in the atlas-tls-secret.yaml file
+
+5. Deploy the atlas-tls-secret.yaml file to your Kubernetes cluster:
 
     ```
     kubectl apply -f atlas-tls-secret.yaml
     ```
 
-5. Deploy the atlas-ingress-cm.yaml file to your Kubernetes cluster:
+6. Deploy the atlas-ingress-cm.yaml file to your Kubernetes cluster:
 
     ```
     kubectl apply -f atlas-ingress-cm.yaml
     ```
 
-6. Install Nginx-Ingress - We recommend installing using [Helm](#https://helm.sh/docs/intro/install/)
+7. Install Nginx-Ingress - We recommend installing using [Helm](#https://helm.sh/docs/intro/install/)
     - Set the Kubernetes context where you are installing atlas and run the following command:
 
         ```
         helm install nginx-ingress stable/nginx-ingress --namespace atlas --default-ssl-certificate=default/atlas-tls-secret --set controller.replicaCount=1 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
         ```
 
-7. Wait for the LoadBalancer service to start and provide an external IP address
+8. Wait for the LoadBalancer service to start and provide an external IP address
 
-8. Configure DNS
+9. Configure DNS
     - <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure</a>
     - <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-elb-load-balancer.html">AWS</a>
 
-9. Update the atlas-ingress.yaml file
+10. Update the atlas-ingress.yaml file
     - Replace `atlas.yourdomain.com` with your atlas URL
 
-10. Deploy the atlas-ingress.yaml file to your Kubernetes cluster:
+11. Deploy the atlas-ingress.yaml file to your Kubernetes cluster:
 
     ```
     kubectl apply -f atlas-ingress.yaml
     ```
   
-11. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
+12. If your domain name provider is different than your cloud provider, you will need to add the Name Servers from your cloud provider to your domain name provider.
