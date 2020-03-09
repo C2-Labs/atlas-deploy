@@ -92,7 +92,12 @@ There are several common ways to deploy ATLAS (NOTE: Additional deployment optio
         - Only designed for initial testing and evaluation
         - Must have admin privileges to install and configure on the local device/VM
 
-
+## Post-Deployment Steps
+1.  Login with ATLAS Admin account (break glass account)
+2.  Change default password to a secure password (NOTE: Please put the password in a safe place as it cannot be retrieved if lost.)
+3.  Configure the Tenant (coming soon)
+4.  Provide user roles (coming soon)
+5.  [Load Catalogues](catalogues\README.md)
 
 <!-- <a name="docker_swarm"/>
 
