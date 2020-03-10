@@ -161,6 +161,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
         - You can use other mechanisms to create this as well.  However, it should be a long and secure value as it should change infrequently or never.  NOTE - changing this key and deploying will invalidate all active sessions and cause an outage.
     - SQLConn: This is the SQL Connection string for the database.
     - EmailPassword: This is the password to login to your SMTP server using the user defined by `EmailAddress` in the ConfigMap
+    - EncryptionKey: This is the encryption key used to securly store select database values.  This key must be exactly 32 characters.  
 
 7. Now deploy the Secret:
     ```
