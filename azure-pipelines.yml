@@ -16,9 +16,9 @@ resources:
 pool:
   vmImage: 'ubuntu-latest'
 
+steps:
 - checkout: self
 
-steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
