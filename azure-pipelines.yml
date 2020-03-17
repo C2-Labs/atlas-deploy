@@ -6,15 +6,17 @@
 trigger:
 - master
 
-# resources:
-#   repositories:
-#   - repository: AzureTests # The name used to reference this repository in the checkout step
-#     type: github
-#     endpoint: C2-Labs
-#     name: C2-Labs/atlas_tests
+resources:
+  repositories:
+  - repository: AzureTests # The name used to reference this repository in the checkout step
+    type: github
+    endpoint: C2-Labs
+    name: C2-Labs/atlas_tests
 
 pool:
   vmImage: 'ubuntu-latest'
+
+- checkout: self
 
 steps:
 - script: echo Hello, world!
@@ -23,4 +25,12 @@ steps:
 - script: |
     ls
     pwd
-  displayName: 'Run a multi-line script'
+  displayName: 'Run a multi-line script in Self Repo'
+
+- checkout: AzureTests
+
+- script: |
+    ls
+    pwd
+  displayName: 'Run a multi-line script in AzureTests'
+
