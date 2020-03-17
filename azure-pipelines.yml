@@ -10,7 +10,7 @@ resources:
   repositories:
   - repository: AzureTests # The name used to reference this repository in the checkout step
     type: github
-    endpoint: C2-Labs
+    endpoint: GitHub-CUCraigT
     name: C2-Labs/atlas_tests
 
 pool:
