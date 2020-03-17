@@ -60,7 +60,7 @@ steps:
   continueOnError: true
   inputs:
     jsonDir: 'atlas_tests/target'
-    outputPath: '.las_tests/target'
+    outputPath: 'atlas_tests/target'
     theme: 'bootstrap'
     reportSuiteAsScenarios: true
     name: 'ATLAS Functional Testing'
