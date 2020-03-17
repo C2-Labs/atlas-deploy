@@ -30,7 +30,7 @@ steps:
     ls
   displayName: 'Run a multi-line script in Self Repo'
 
-  - script: |
+- script: |
     pwd
     ls
   displayName: 'Run a multi-line script in Self Repo'
