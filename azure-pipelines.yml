@@ -43,3 +43,25 @@ steps:
     pwd
   displayName: 'Run a multi-line script in AzureTests'
 
+- task: Maven@3
+  continueOnError: true
+  inputs:
+    mavenPomFile: 'atlas_tests/pom.xml'
+    options: '-Durl="https://atlas-dev.c2labs.com"'
+    publishJUnitResults: true
+    testResultsFiles: 'atlas_tests/**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+- task: PublishCucumberReport@1
+  continueOnError: true
+  inputs:
+    jsonDir: 'atlas_tests/target'
+    outputPath: '.las_tests/target'
+    theme: 'bootstrap'
+    reportSuiteAsScenarios: true
+    name: 'ATLAS Functional Testing'
+    title: 'ATLAS Cucumber Tests'
