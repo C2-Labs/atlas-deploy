@@ -1,0 +1,26 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+# resources:
+#   repositories:
+#   - repository: AzureTests # The name used to reference this repository in the checkout step
+#     type: github
+#     endpoint: C2-Labs
+#     name: C2-Labs/atlas_tests
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    ls
+    pwd
+  displayName: 'Run a multi-line script'
