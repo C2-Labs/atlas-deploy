@@ -23,13 +23,22 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
-    ls
     pwd
+    ls
+    cd atlas-deploy
+    pwd
+    ls
+  displayName: 'Run a multi-line script in Self Repo'
+
+  - script: |
+    pwd
+    ls
   displayName: 'Run a multi-line script in Self Repo'
 
 - checkout: AzureTests
 
 - script: |
+    cd atlas_tests
     ls
     pwd
   displayName: 'Run a multi-line script in AzureTests'
