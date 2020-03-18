@@ -25,6 +25,10 @@ steps:
     cd atlas-deploy
     pwd
     ls
+    echo "Changing to System DefaultWorkingDirectory"
+    cd $(System.DefaultWorkingDirectory)
+    pwd
+    ls
   displayName: 'Run a multi-line script in Self Repo'
 
 - checkout: AzureTests
@@ -33,27 +37,31 @@ steps:
     cd atlas_tests
     ls
     pwd
+    echo "Changing to System DefaultWorkingDirectory"
+    cd $(System.DefaultWorkingDirectory)
+    pwd
+    ls
   displayName: 'Run a multi-line script in AzureTests'
 
-- task: Maven@3
-  continueOnError: true
-  inputs:
-    mavenPomFile: 'atlas_tests/pom.xml'
-    options: '-Durl="https://atlas-dev.c2labs.com"'
-    publishJUnitResults: true
-    testResultsFiles: 'atlas_tests/**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+# - task: Maven@3
+#   continueOnError: true
+#   inputs:
+#     mavenPomFile: 'atlas_tests/pom.xml'
+#     options: '-Durl="https://atlas-dev.c2labs.com"'
+#     publishJUnitResults: true
+#     testResultsFiles: 'atlas_tests/**/surefire-reports/TEST-*.xml'
+#     javaHomeOption: 'JDKVersion'
+#     mavenVersionOption: 'Default'
+#     mavenAuthenticateFeed: false
+#     effectivePomSkip: false
+#     sonarQubeRunAnalysis: false
 
-- task: PublishCucumberReport@1
-  continueOnError: true
-  inputs:
-    jsonDir: 'atlas_tests/target'
-    outputPath: 'atlas_tests/target'
-    theme: 'bootstrap'
-    reportSuiteAsScenarios: true
-    name: 'ATLAS Functional Testing'
-    title: 'ATLAS Cucumber Tests'
+# - task: PublishCucumberReport@1
+#   continueOnError: true
+#   inputs:
+#     jsonDir: 'atlas_tests/target'
+#     outputPath: 'atlas_tests/target'
+#     theme: 'bootstrap'
+#     reportSuiteAsScenarios: true
+#     name: 'ATLAS Functional Testing'
+#     title: 'ATLAS Cucumber Tests'
