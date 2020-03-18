@@ -17,7 +17,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-# - checkout: self
+- checkout: self
 
 - script: |
     pwd
