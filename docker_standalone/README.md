@@ -13,8 +13,9 @@ In order to setup the test and evaluation environment, the customer should take 
 3. During Beta period, your Docker Hub ID needs access to the repository, `c2labs/atlas-c2internal`
 4. Perform a `docker login` with that User ID (this can also force a download to make sure you have the right image)
     - If you want to test, you can manually pull the image:
+    
         ```
-        docker pull c2labs/atlas-c2internal:0.1.0-beta
+        docker pull c2labs/atlas-c2internal:0.2.1-beta
         ```
 
 ### Prepare Configurations
@@ -29,17 +30,32 @@ In order to setup the test and evaluation environment, the customer should take 
             - Base 10 digits
             - Symbols (avoid for now)
 3. Edit `atlas.env`
-    - Domain: This is the URL of your deployment. Leave this as is until your service is created, and then you will need to edit this value and re-deploy
-        - Default value: `'http://atlas.yourdomain.com'`
     - StoredFilesPath: This is the location where the persistent storage will be mounted. You should not need to change this value, unless you change the mount point in your `docker-compose` file
         - Default value: `'/atlas/files'`
+    - DB_SERVER: Name of the database server. **DO NOT CHANGE IF USING docker-compose**
+        - Default value: `atlas-db`
+    - DB_PORT: Port for the database. **DO NOT CHANGE IF USING docker-compose**
+        - Default value: `1433`
+    - JWTSecretKey: This is your JWT Secret Key. This can be any random value, Base 64 encoded. If you have Node.js installed you can generate the key with the following command:
+        - `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`
+        - You can use any other mechanism to create this key.  However, it should be long and secure key as it will be changed infrequently (or never) as it will invalidate all open sessions after being deployed.
+        - Default value: `Your&SuperSecret+JWTSecretToken+123442534234`
+    - EncryptionKey: This is your Encryption Key for encrypted files and data in the database. This can be any random value, Base 64 encoded. If you have Node.js installed you can generate the key with the following command:
+        - `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`
+        - You can use any other mechanism to create this key.  However, it should be long and secure key as it will be changed infrequently (or never) as it will invalidate all files and encrypted data in the database if you change it.
+        - Default value: `Your$SuperSecret+Encryption!Key&122345q8`
+    - SQLConn: This is the SQL Connection string from above.
+        - If using container's DB, simply configure the password to match the one configured in db.env.  All other components should stay the same.  NOTE: If you wish to connect to an external database, you can provide a full connection string and avoid provisioning an in-memory database locally.  Also note that any data saved will be lost if the container running the database is stopped.
+
+<!-- 
+    - Domain: This is the URL of your deployment. Leave this as is until your service is created, and then you will need to edit this value and re-deploy
+        - Default value: `'http://atlas.yourdomain.com'`
     - PermittedFileExtensions: These are the file types that are allowed to be uploaded through the platform.  You can add additional files as necessary or remove extensions below to make them more restrictive.
         - Default value:
 
             ```
             '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'
             ```
-
     - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this varialbe larger than that.
         - Default value: `"104857600"`
     - Email Configuration
@@ -53,17 +69,8 @@ In order to setup the test and evaluation environment, the customer should take 
             - Default value: `"587"`
         - SmtpServer: Address for SMTP server used for **sending** email
             - Default value: `smtp.yourdomain.com` or for Office365, use `smtp.office365.com`
-    - DB_SERVER: Name of the database server. **DO NOT CHANGE IF USING docker-compose**
-        - Default value: `atlas-db`
-    - DB_PORT: Port for the database. **DO NOT CHANGE IF USING docker-compose**
-        - Default value: `1433`
-    - JWTSecretKey: This is your JWT Secret Key. This can be any random value, Base 64 encoded. If you have Node.js installed you can generate the key with the following command:
-        - `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`
-        - You can use any other mechanism to create this key.  However, it should be long and secure key as it will be changed infrequently (or never) as it will invalidate all open sessions after being deployed.
-        - Default value: `Your&SuperSecret+JWTSecretToken+123442534234`
-    - SQLConn: This is the SQL Connection string from above.
-        - If using container's DB, simply configure the password to match the one configured in db.env.  All other components should stay the same.  NOTE: If you wish to connect to an external database, you can provide a full connection string and avoid provisioning an in-memory database locally.  Also note that any data saved will be lost if the container running the database is stopped.
-    - EmailPassword: This is the password to login to your SMTP server using the user defined by the `EmailAddress` above
+    - EmailPassword: This is the password to login to your SMTP server using the user defined by the `EmailAddress` above 
+-->
 
 ### Run ATLAS
 1. If you want to stand up the database container and ATLAS, navigate into the directory where the `docker-compose.yml` file is located
@@ -91,11 +98,13 @@ In order to setup the test and evaluation environment, the customer should take 
 
 3. Following steps 5 or 6, ATLAS should now be running locally on a single container.
     - Point your browser to http://localhost:81
-4. Login with the default credentials and **CHANGE THEM** 
+4. Login with the default credentials and **CHANGE THEM**
     - Username: `admin`
     - Password: `51mpl3Compliance$`
     - ATLAS will force you to change this upon first login
-5. When you are done, you can clean up the containers with:
+5. All configuration settings are now set within the application:
+    - As an admin, click your Username->Setup
+6. When you are done, you can clean up the containers with:
 
     ```
     docker-compose down
