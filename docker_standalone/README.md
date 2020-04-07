@@ -1,7 +1,9 @@
 # ATLAS Deployment for Local Docker
+
 This document provides installation files and instructions for deploying C2 Labs ATLAS in a Local Docker Environment (laptop, desktop, or Virtual Machine (VM)).
 
 ## Local Docker
+
 C2 Labs created a convenient and straightforward way to run ATLAS locally, even without connecting to a remote database. This guide will allow a customer to spin up a local SQL container, connect to the database, initialize the database, and run ATLAS; all within their stand-alone environment (laptop, desktop, or VM).  This approach allows our customers to quickly and easily test and evaluate the product without external dependencies on infrastructure (which can take a long time to provision in Enterprise environments) and with no up-front costs for the evaluation.
 
 In order to setup the test and evaluation environment, the customer should take the following steps: 
@@ -13,12 +15,13 @@ In order to setup the test and evaluation environment, the customer should take 
 3. During Beta period, your Docker Hub ID needs access to the repository, `c2labs/atlas-c2internal`
 4. Perform a `docker login` with that User ID (this can also force a download to make sure you have the right image)
     - If you want to test, you can manually pull the image:
-    
+
         ```
-        docker pull c2labs/atlas-c2internal:0.2.1-beta
+        docker pull c2labs/atlas-c2internal:0.5.0-beta
         ```
 
 ### Prepare Configurations
+
 1. Download all the files from the `docker_standalone` directory; or git clone the entire repository
 2. Edit `db.env`
     - Set `SA_PASSWORD` to a secure value of your choosing. Avoid special characters, as these seem to cause some issues.  NOTE: this password is stored locally and is not available or retrievable by C2 Labs.
@@ -31,7 +34,9 @@ In order to setup the test and evaluation environment, the customer should take 
             - Symbols (avoid for now)
 3. Edit `atlas.env`
     - StoredFilesPath: This is the location where the persistent storage will be mounted. You should not need to change this value, unless you change the mount point in your `docker-compose` file
-        - Default value: `'/atlas/files'`
+        - Default value: `/atlas/files`
+    - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this variable larger than that. This also can later be set in the Admin Panel, but needs to be set initially here.
+        - Default value: `104857600`
     - DB_SERVER: Name of the database server. **DO NOT CHANGE IF USING docker-compose**
         - Default value: `atlas-db`
     - DB_PORT: Port for the database. **DO NOT CHANGE IF USING docker-compose**
@@ -47,32 +52,8 @@ In order to setup the test and evaluation environment, the customer should take 
     - SQLConn: This is the SQL Connection string from above.
         - If using container's DB, simply configure the password to match the one configured in db.env.  All other components should stay the same.  NOTE: If you wish to connect to an external database, you can provide a full connection string and avoid provisioning an in-memory database locally.  Also note that any data saved will be lost if the container running the database is stopped.
 
-<!-- 
-    - Domain: This is the URL of your deployment. Leave this as is until your service is created, and then you will need to edit this value and re-deploy
-        - Default value: `'http://atlas.yourdomain.com'`
-    - PermittedFileExtensions: These are the file types that are allowed to be uploaded through the platform.  You can add additional files as necessary or remove extensions below to make them more restrictive.
-        - Default value:
-
-            ```
-            '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'
-            ```
-    - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this varialbe larger than that.
-        - Default value: `"104857600"`
-    - Email Configuration
-        - Email: From/Reply-To address used when sending emails
-            - Default value: `atlas_noreply@yourdomain.com`
-        - EmailAddress: Email address used to login to the SMTP Server defined
-            - Default value: `emailbot@yourdomain`
-        - AdminEmail: System administrator email address
-            - Default value: `admin@yourdomain.com`
-        - EmailPort: Email port for **sending** email
-            - Default value: `"587"`
-        - SmtpServer: Address for SMTP server used for **sending** email
-            - Default value: `smtp.yourdomain.com` or for Office365, use `smtp.office365.com`
-    - EmailPassword: This is the password to login to your SMTP server using the user defined by the `EmailAddress` above 
--->
-
 ### Run ATLAS
+
 1. If you want to stand up the database container and ATLAS, navigate into the directory where the `docker-compose.yml` file is located
     - Type:
 
