@@ -11,6 +11,9 @@ In order to setup the test and evaluation environment, the customer should take 
 ## PREREQUISITES
 
 1. You need to have Docker installed; the free version of Docker Desktop is sufficient
+    - **NOTE** _4/7/2020_: There is a bug in the latest Edge version of Docker Desktop on both Mac and Windows (2.2.3.0, build 43965). This bug does not allow a port to be bound to the IP address. For us, MS SQL never gets
+    - **FIX** _4/7/2020_: There is a current patch on GitHub for this, upgrading to build 44007
+        - <https://github.com/docker/for-mac/issues/4415>
 2. You need to have access to Docker Hub
 3. During Beta period, your Docker Hub ID needs access to the repository, `c2labs/atlas-c2internal`
 4. Perform a `docker login` with that User ID (this can also force a download to make sure you have the right image)
