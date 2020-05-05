@@ -48,7 +48,7 @@ ASPNETCORE_Kestrel__Certificates__Default__Path=C:\https\<YourCertName.pfx>
 
 ### Start Atlas
 1. Start the Atlas container using the following Docker Run command
-  **NOTE** If you moved the location of `C:\atlas\files`, substitute that value in the `source` statement in the run command.
+  - **NOTE** If you moved the location of `C:\atlas\files`, substitute that value in the `source` statement in the run command.
 
 ```
 docker run -it --name atlas -p 443:443 --env-file atlas.env --mount type=bind,source="C:\atlas\files",target=C:\atlas\files --mount type=bind,source="C:\https",target=C:\https,readonly c2labs/atlas-c2internal:latest-win
