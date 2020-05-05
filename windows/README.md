@@ -22,7 +22,7 @@ docker run hello-world:nanoserver
 ### Setup Atlas Environment Variables File
 1. Create folder `C:\atlas-install`
 2. Copy the `atlas.env` file to `C:\atlas-install`
-3. Update `atlas.env` with your JWT Token, Encription Key, and Database Connection String
+3. Update `atlas.env` with your JWT Token, Encryption Key, and Database Connection String
 ```
 JWTSecretKey=<YourSuperSecretJWTSecretToken>
 EncryptionKey=<YourSuperSecretEncryptionKey>
