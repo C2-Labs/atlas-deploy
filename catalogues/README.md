@@ -4,7 +4,7 @@ Catalogues form a collection of one or more security controls.  By default, ATLA
 ## Steps to Load Catalogues
 1.  Review the list of available catalogues within ATLAS:
     - [California Consumer Privacy Act (CCPA)](ccpa.json)
-    - [Cybersecurity Maturity Model Certification (CMMC) 1.0](cmmcv1.json)
+    - [Cybersecurity Maturity Model Certification (CMMC) 1.0](cmmc.json)
     - [Cloud Security Alliance (CSA) Cloud Controls Matrix (CCM) 3.0.1](csa-ccm3-0-1.json)
     - [General Data Protection Regulation (GDPR)](gdpr.json)
     - [NIST SP800-53 Rev 4](nist800-53r4.json)
