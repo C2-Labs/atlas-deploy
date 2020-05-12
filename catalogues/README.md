@@ -12,12 +12,11 @@ Catalogues form a collection of one or more security controls.  By default, ATLA
 2.  Log into ATLAS with an Admin account (NOTE: Can be any user account with the Administrator role applied)
 3.  Click your username in the top right and select Catalogues 
 4.  Click the 'Create New' button
-5.  Enter metadata for the catalogue you wish to create and save the record
-6.  Click the 'Import/Export' button 
-7.  Choose the appropriate JSON file from above to upload
-8.  Click the 'Import Controls' button
-9.  Catalogue is now fully loaded with the controls
-10. Repeat steps above for each catalogue your organization would like loaded
+5.  Click the 'Import/Export' button 
+6.  Choose the appropriate JSON file from above to upload
+7.  Click the 'Import Controls' button
+8.  Catalogue is now fully loaded with the controls
+9. Repeat steps above for each catalogue your organization would like loaded
 
 ## Using Catalogues
 1.  Create a Security Profile by selecting one or more controls in one or more catalogues
