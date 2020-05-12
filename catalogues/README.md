@@ -5,9 +5,10 @@ Catalogues form a collection of one or more security controls.  By default, ATLA
 1.  Review the list of available catalogues within ATLAS:
     - [California Consumer Privacy Act (CCPA)](ccpa.json)
     - [Cybersecurity Maturity Model Certification (CMMC) 1.0](cmmc.json)
-    - [Cloud Security Alliance (CSA) Cloud Controls Matrix (CCM) 3.0.1](csa-ccm3-0-1.json)
+    - [Cloud Security Alliance (CSA) Cloud Controls Matrix (CCM) 3.0.1](csa-ccm-301.json)
+    - [Financial Services Sector Cybersecurity Profile (FSSCP) v1.0](fssc.json)
     - [General Data Protection Regulation (GDPR)](gdpr.json)
-    - [NIST SP800-53 Rev 4](nist800-53r4.json)
+    - [NIST SP800-53 Rev 4](nist800-53-r4.json)
     - [NIST Cybersecurity Framework (CSF) 1.1](nist-csf-v1-1.json)
 2.  Log into ATLAS with an Admin account (NOTE: Can be any user account with the Administrator role applied)
 3.  Click your username in the top right and select Catalogues 
