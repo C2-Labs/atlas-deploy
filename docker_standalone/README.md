@@ -38,7 +38,7 @@ In order to setup the test and evaluation environment, the customer should take 
 3. Edit `atlas.env`
     - StoredFilesPath: This is the location where the persistent storage will be mounted. You should not need to change this value, unless you change the mount point in your `docker-compose` file
         - Default value: `/atlas/files`
-    - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this variable larger than that. This also can later be set in the Admin Panel, but needs to be set initially here.
+    - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this variable larger than that. This variable is optional and will be set to 100 MB by default if nothing is provided.
         - Default value: `104857600`
     - DB_SERVER: Name of the database server. **DO NOT CHANGE IF USING docker-compose**
         - Default value: `atlas-db`

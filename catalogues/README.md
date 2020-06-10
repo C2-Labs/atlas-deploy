@@ -17,10 +17,10 @@ Catalogues form a collection of one or more security controls.  By default, ATLA
 6.  Choose the appropriate JSON file from above to upload
 7.  Click the 'Import Controls' button
 8.  Catalogue is now fully loaded with the controls
-9. Repeat steps above for each catalogue your organization would like loaded
+9.  Repeat steps above for each catalogue your organization would like loaded
 
 ## Using Catalogues
-1.  Create a Security Profile by selecting one or more controls in one or more catalogues
+1.  Create a Security Profile by selecting one or more controls in one or more catalogues.  Profiles become templates to create/instantiate security plans.
 2.  Once profiles are created, create a new security plan.
 3.  Use the Security Plan Builder to create a templated security plan based on the profile and manual controls selected.
 4.  After you finish the builder, a new plan will be created using the security controls in the profile.

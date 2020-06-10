@@ -132,7 +132,7 @@ If you are using Kubernetes, you first need to configure your database, as detai
                 '.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.avi,.mp4,.mov,.wmv,.msg,.txt,.rtf,.csv,.m4v,.png,.jpg,.gif,.jpeg,.bmp,.zip,.gz,.json,.html'
                 ```
                 
-    - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if set larger than that.
+    - FileSizeLimit: The file size limit per file in **bytes**. Please note the overall limit is 120 MB, even if you set this variable larger than that. This variable is optional and will be set to 100 MB by default if nothing is provided.
         - Default value: `"104857600"`
     - Email Configuration
         - Email: From/Reply-To address used when sending emails

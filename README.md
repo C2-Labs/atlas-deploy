@@ -78,6 +78,7 @@ There are several common ways to deploy ATLAS (NOTE: Additional deployment optio
 - [ATLAS Stand-Alone with Local Docker](docker_standalone/README.md)
     - Quick Start
         - **_This is the preferred method to initially test and evaluate ATLAS_**
+        - This approach can be used for stand-alone on a laptop or on a virtual machine.  It just requires Docker to be installed.
     - PROS
         - Very quick to set up
         - Runs on local computer/laptop or a single Windows/Linux Virtual Machine (VM)
